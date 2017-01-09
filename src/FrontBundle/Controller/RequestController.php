@@ -27,7 +27,6 @@ class RequestController extends Controller
         $data = $api->download($id);
 
         $fs = new Filesystem();
-        $fs->mkdir($this->getParameter('torrent_directory'));
         $fs->dumpFile($this->getParameter('torrent_directory').'/'.$id.'.torrent', $data);
 
         $process = new Process('transmission-remote '.$this->getParameter('transmission_host').':'.$this->getParameter('transmission_port').' -n '.$this->getParameter('transmission_login').':'.$this->getParameter('transmission_password').' -a '.$this->getParameter('torrent_directory').'/'.$id.'.torrent');
