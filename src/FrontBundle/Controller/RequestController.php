@@ -45,13 +45,16 @@ class RequestController extends Controller
         }
 
         if ($torrent_id)
-            return new JsonResponse(array('error' => 'Torrent already added'));
+            $response = new JsonResponse(array('error' => 'Torrent already added'));
 
-        $process = new Process('transmission-remote ' . $this->getParameter('transmission_host') . ':' . $this->getParameter('transmission_port') . ' -n ' . $this->getParameter('transmission_login') . ':' . $this->getParameter('transmission_password') . ' -a ' . $this->getParameter('torrent_directory') . '/' . $id . '.torrent');
-        $process->run();
-        var_dump($process->getOutput());
+        else {
+            $process = new Process('transmission-remote ' . $this->getParameter('transmission_host') . ':' . $this->getParameter('transmission_port') . ' -n ' . $this->getParameter('transmission_login') . ':' . $this->getParameter('transmission_password') . ' -a ' . $this->getParameter('torrent_directory') . '/' . $id . '.torrent');
+            $process->run();
+            $response = new JsonResponse(array('success' => true));
+        }
 
-        return new JsonResponse(array('success' => true));
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
     }
 
 }
