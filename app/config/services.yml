@@ -7,3 +7,9 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    api:
+        class: FrontBundle\Service\Api
+    html:
+        class: FrontBundle\Service\Html
+    transmission:
+        class: FrontBundle\Service\Transmission
