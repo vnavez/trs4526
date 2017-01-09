@@ -13,3 +13,5 @@ services:
         class: FrontBundle\Service\Html
     transmission:
         class: FrontBundle\Service\Transmission
+    torrent:
+        class: FrontBundle\Service\Torrent

@@ -2,6 +2,7 @@
 
 namespace FrontBundle\Controller;
 
+use FrontBundle\Service\Torrent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -14,7 +15,7 @@ class RequestController extends Controller
 {
     /**
      * @Route("/send", name="request_send")
-     * @Method("GET")
+     * @Method("POST")
      */
     public function sendAction(Request $request)
     {
@@ -27,10 +28,28 @@ class RequestController extends Controller
         $data = $api->download($id);
 
         $fs = new Filesystem();
-        $fs->dumpFile($this->getParameter('torrent_directory').'/'.$id.'.torrent', $data);
+        $fs->dumpFile($this->getParameter('torrent_directory') . '/' . $id . '.torrent', $data);
 
-        $process = new Process('transmission-remote '.$this->getParameter('transmission_host').':'.$this->getParameter('transmission_port').' -n '.$this->getParameter('transmission_login').':'.$this->getParameter('transmission_password').' -a '.$this->getParameter('torrent_directory').'/'.$id.'.torrent');
+        $torrent = new Torrent($this->getParameter('torrent_directory') . '/' . $id . '.torrent');
+        $name = $torrent->name();
+
+        $process = new Process('transmission-remote ' . $this->getParameter('transmission_host') . ':' . $this->getParameter('transmission_port') . ' -n ' . $this->getParameter('transmission_login') . ':' . $this->getParameter('transmission_password') . ' -l');
         $process->run();
+        $torrent_list = $process->getOutput();
+        $lines = explode("\n", $torrent_list);
+        $torrent_id = null;
+        foreach ($lines as $line) {
+            if (preg_match('#([0-9]+).*' . preg_quote($name) . '#', $line, $matches)) {
+                $torrent_id = $matches[1];
+            }
+        }
+
+        if ($torrent_id)
+            return new JsonResponse(array('error' => 'Torrent already added'));
+
+        $process = new Process('transmission-remote ' . $this->getParameter('transmission_host') . ':' . $this->getParameter('transmission_port') . ' -n ' . $this->getParameter('transmission_login') . ':' . $this->getParameter('transmission_password') . ' -a ' . $this->getParameter('torrent_directory') . '/' . $id . '.torrent');
+        $process->run();
+        var_dump($process->getOutput());
 
         return new JsonResponse(array('success' => true));
     }
