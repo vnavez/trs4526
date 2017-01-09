@@ -17,3 +17,9 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+    api_login:
+    api_password:
+    transmission_host:
+    transmission_port:
+    transmission_login:
+    transmission_password:
