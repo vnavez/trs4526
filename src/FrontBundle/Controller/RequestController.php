@@ -19,6 +19,7 @@ class RequestController extends Controller
      */
     public function sendAction(Request $request)
     {
+        $em = $this->getDoctrine()->getEntityManager();
         $url = $request->get('url');
         $api = $this->get('api');
         $html = $this->get('html');
@@ -51,6 +52,13 @@ class RequestController extends Controller
             $process = new Process('transmission-remote ' . $this->getParameter('transmission_host') . ':' . $this->getParameter('transmission_port') . ' -n ' . $this->getParameter('transmission_login') . ':' . $this->getParameter('transmission_password') . ' -a ' . $this->getParameter('torrent_directory') . '/' . $id . '.torrent');
             $process->run();
             $response = new JsonResponse(array('success' => true));
+
+            $torrent = new \FrontBundle\Entity\Torrent();
+            $torrent->setIdT411($torrent_id);
+            $torrent->setName($name);
+            $torrent->setStatus(1);
+            $em->persist($torrent);
+            $em->flush();
         }
 
         return $response;
