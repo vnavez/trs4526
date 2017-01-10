@@ -1,0 +1,21 @@
+FrontBundle\Entity\Torrent:
+    type: entity
+    table: torrent
+    repositoryClass: FrontBundle\Repository\TorrentRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        idT411:
+            type: integer
+            unique: true
+            column: id_t411
+        name:
+            type: string
+            length: 255
+        status:
+            type: integer
+    lifecycleCallbacks: {  }
