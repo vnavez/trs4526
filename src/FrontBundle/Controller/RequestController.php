@@ -53,7 +53,6 @@ class RequestController extends Controller
             $response = new JsonResponse(array('success' => true));
         }
 
-        $response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;
     }
 
