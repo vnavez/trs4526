@@ -19,7 +19,7 @@ class Api
     public function auth($login, $password) {
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://api.t411.ch/auth');
+        curl_setopt($ch, CURLOPT_URL, 'https://api.t411.li/auth');
         curl_setopt($ch, CURLOPT_POST, 2);
         curl_setopt($ch, CURLOPT_POSTFIELDS, 'username='.$login.'&password='.$password);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -53,7 +53,7 @@ class Api
             throw new ApiException('Please auth before');
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://api.t411.ch/torrents/download/'.$id);
+        curl_setopt($ch, CURLOPT_URL, 'https://api.t411.li/torrents/download/'.$id);
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: '.$this->_token]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
