@@ -2,6 +2,7 @@
 
 namespace FrontBundle\Controller;
 
+use FrontBundle\FrontBundle;
 use FrontBundle\Service\Torrent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -26,6 +27,11 @@ class RequestController extends Controller
 
         $api->auth($this->getParameter('api_login'), $this->getParameter('api_password'));
         $id = $html->getTorrentId($url);
+
+        if ($em->getRepository('FrontBundle:Torrent')->findOneBy(array('idT411' => $id))) {
+            return new JsonResponse(array('error' => 'Torrent already added'));
+        }
+
         $data = $api->download($id);
 
         $fs = new Filesystem();
@@ -34,34 +40,17 @@ class RequestController extends Controller
         $torrent = new Torrent($this->getParameter('torrent_directory') . '/' . $id . '.torrent');
         $name = $torrent->name();
 
-        $process = new Process('transmission-remote ' . $this->getParameter('transmission_host') . ':' . $this->getParameter('transmission_port') . ' -n ' . $this->getParameter('transmission_login') . ':' . $this->getParameter('transmission_password') . ' -l');
+        $process = new Process('transmission-remote ' . $this->getParameter('transmission_host') . ':' . $this->getParameter('transmission_port') . ' -n ' . $this->getParameter('transmission_login') . ':' . $this->getParameter('transmission_password') . ' -a ' . $this->getParameter('torrent_directory') . '/' . $id . '.torrent');
         $process->run();
-        $torrent_list = $process->getOutput();
-        $lines = explode("\n", $torrent_list);
-        $torrent_id = null;
-        foreach ($lines as $line) {
-            if (preg_match('#([0-9]+).*' . preg_quote($name) . '#', $line, $matches)) {
-                $torrent_id = $matches[1];
-            }
-        }
 
-        if ($torrent_id)
-            $response = new JsonResponse(array('error' => 'Torrent already added'));
+        $torrent = new \FrontBundle\Entity\Torrent();
+        $torrent->setIdT411($id);
+        $torrent->setName($name);
+        $torrent->setStatus(1);
+        $em->persist($torrent);
+        $em->flush();
 
-        else {
-            $process = new Process('transmission-remote ' . $this->getParameter('transmission_host') . ':' . $this->getParameter('transmission_port') . ' -n ' . $this->getParameter('transmission_login') . ':' . $this->getParameter('transmission_password') . ' -a ' . $this->getParameter('torrent_directory') . '/' . $id . '.torrent');
-            $process->run();
-            $response = new JsonResponse(array('success' => true));
-
-            $torrent = new \FrontBundle\Entity\Torrent();
-            $torrent->setIdT411($torrent_id);
-            $torrent->setName($name);
-            $torrent->setStatus(1);
-            $em->persist($torrent);
-            $em->flush();
-        }
-
-        return $response;
+        return new JsonResponse(array('success' => true));
     }
 
 }
