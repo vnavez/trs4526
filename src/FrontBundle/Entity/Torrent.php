@@ -109,5 +109,33 @@ class Torrent
     {
         return $this->status;
     }
-}
+    /**
+     * @var integer
+     */
+    private $idTransmission;
 
+
+    /**
+     * Set idTransmission
+     *
+     * @param integer $idTransmission
+     *
+     * @return Torrent
+     */
+    public function setIdTransmission($idTransmission)
+    {
+        $this->idTransmission = $idTransmission;
+
+        return $this;
+    }
+
+    /**
+     * Get idTransmission
+     *
+     * @return integer
+     */
+    public function getIdTransmission()
+    {
+        return $this->idTransmission;
+    }
+}

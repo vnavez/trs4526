@@ -13,6 +13,10 @@ FrontBundle\Entity\Torrent:
             type: integer
             unique: true
             column: id_t411
+        idTransmission:
+            type: integer
+            unique: true
+            column: id_transmission
         name:
             type: string
             length: 255

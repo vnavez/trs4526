@@ -43,8 +43,17 @@ class RequestController extends Controller
         $process = new Process('transmission-remote ' . $this->getParameter('transmission_host') . ':' . $this->getParameter('transmission_port') . ' -n ' . $this->getParameter('transmission_login') . ':' . $this->getParameter('transmission_password') . ' -a ' . $this->getParameter('torrent_directory') . '/' . $id . '.torrent');
         $process->run();
 
+        $process = new Process('transmission-remote ' . $this->getParameter('transmission_host') . ':' . $this->getParameter('transmission_port') . ' -n ' . $this->getParameter('transmission_login') . ':' . $this->getParameter('transmission_password') . ' -l');
+        $process->run();
+        $result = $process->getOutput();
+
+        if (!preg_match('#([0-9]+).*'.preg_quote($name).'#', $result, $matches)) {
+            return new JsonResponse(array('error' => 'Unable to get torrent in list'));
+        }
+
         $torrent = new \FrontBundle\Entity\Torrent();
         $torrent->setIdT411($id);
+        $torrent->setIdTransmission($matches[1]);
         $torrent->setName($name);
         $torrent->setStatus(1);
         $em->persist($torrent);
