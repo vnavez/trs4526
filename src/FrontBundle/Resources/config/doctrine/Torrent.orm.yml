@@ -13,6 +13,7 @@ FrontBundle\Entity\Torrent:
             type: integer
             unique: true
             column: id_t411
+            nullable: true
         idTransmission:
             type: integer
             unique: true
@@ -20,6 +21,16 @@ FrontBundle\Entity\Torrent:
         name:
             type: string
             length: 255
+    manyToOne:
+        user:
+            targetEntity: FrontBundle\Entity\User
+            joinColumn:
+                name: id_user
+                referencedColumName: id
+                onDelete: CASCADE
         status:
-            type: integer
+            targetEntity: FrontBundle\Entity\Status
+            joinColumn:
+                name: id_status
+                referencedColumName: id
     lifecycleCallbacks: {  }

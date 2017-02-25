@@ -1,0 +1,18 @@
+FrontBundle\Entity\User:
+    type: entity
+    table: user
+    repositoryClass: FrontBundle\Repository\UserRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        token:
+            type: string
+            length: 255
+        username:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }

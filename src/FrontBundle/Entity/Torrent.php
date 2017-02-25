@@ -138,4 +138,62 @@ class Torrent
     {
         return $this->idTransmission;
     }
+    /**
+     * @var integer
+     */
+    private $idUser;
+
+    /**
+     * @var \FrontBundle\Entity\User
+     */
+    private $user;
+
+
+    /**
+     * Set idUser
+     *
+     * @param integer $idUser
+     *
+     * @return Torrent
+     */
+    public function setIdUser($idUser)
+    {
+        $this->idUser = $idUser;
+
+        return $this;
+    }
+
+    /**
+     * Get idUser
+     *
+     * @return integer
+     */
+    public function getIdUser()
+    {
+        return $this->idUser;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \FrontBundle\Entity\User $user
+     *
+     * @return Torrent
+     */
+    public function setUser(\FrontBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \FrontBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }

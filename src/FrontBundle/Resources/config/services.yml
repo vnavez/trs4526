@@ -1,4 +1,23 @@
+parameters:
+    status:
+        new: NEW
+        progressing: PROGRESSING
+        error: ERROR
+        downloaded: DOWNLOADED
+        transfert: TRANSFERT
+        done: DONE
+        pause: PAUSE
 services:
+    userRepository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - FrontBundle\Entity\User
+    statusRepository:
+            class: Doctrine\ORM\EntityRepository
+            factory: ["@doctrine.orm.entity_manager", getRepository]
+            arguments:
+                - FrontBundle\Entity\Status
     api:
         class: FrontBundle\Service\Api
     html:
@@ -7,3 +26,9 @@ services:
         class: FrontBundle\Service\Transmission
     torrent:
         class: FrontBundle\Service\Torrent
+    user:
+        class: FrontBundle\Service\User
+        arguments: ["@userRepository"]
+    status:
+        class: FrontBundle\Service\Status
+        arguments: ["@statusRepository", %status%]

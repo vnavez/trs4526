@@ -22,8 +22,18 @@ class RequestController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $url = $request->get('url');
+        $token = $request->get('token');
         $api = $this->get('api');
         $html = $this->get('html');
+        $user = $this->get('user');
+        $status = $this->get('status');
+
+        if (!$token)
+            return new JsonResponse(array('error' => 'Please use your token'));
+
+        $idUser = $user->isAuthorizedToken($token);
+        if (!$idUser)
+            return new JsonResponse(array('error' => 'Please use your real token'));
 
         $api->auth($this->getParameter('api_login'), $this->getParameter('api_password'));
         $id = $html->getTorrentId($url);
@@ -55,7 +65,8 @@ class RequestController extends Controller
         $torrent->setIdT411($id);
         $torrent->setIdTransmission($matches[1]);
         $torrent->setName($name);
-        $torrent->setStatus(1);
+        $torrent->setStatus($status->getStatusByCode('new'));
+        $torrent->setIdUser($idUser);
         $em->persist($torrent);
         $em->flush();
 
