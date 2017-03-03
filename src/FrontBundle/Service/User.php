@@ -22,7 +22,7 @@ class User
 
     /**
      * @param $token
-     * @return int|null
+     * @return int|\FrontBundle\Entity\User
      */
     public function isAuthorizedToken($token) {
         /** @var \FrontBundle\Entity\User $user */
@@ -30,7 +30,7 @@ class User
         if (!$user)
             return null;
 
-        return $user->getId();
+        return $user;
     }
 
 }

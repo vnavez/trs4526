@@ -31,8 +31,8 @@ class RequestController extends Controller
         if (!$token)
             return new JsonResponse(array('error' => 'Please use your token'));
 
-        $idUser = $user->isAuthorizedToken($token);
-        if (!$idUser)
+        $user = $user->isAuthorizedToken($token);
+        if (!$user)
             return new JsonResponse(array('error' => 'Please use your real token'));
 
         $api->auth($this->getParameter('api_login'), $this->getParameter('api_password'));
@@ -66,7 +66,7 @@ class RequestController extends Controller
         $torrent->setIdTransmission($matches[1]);
         $torrent->setName($name);
         $torrent->setStatus($status->getStatusByCode('new'));
-        $torrent->setIdUser($idUser);
+        $torrent->setUser($user);
         $em->persist($torrent);
         $em->flush();
 
