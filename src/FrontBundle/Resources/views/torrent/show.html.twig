@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Torrent</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ torrent.id }}</td>
+            </tr>
+            <tr>
+                <th>Idt411</th>
+                <td>{{ torrent.idT411 }}</td>
+            </tr>
+            <tr>
+                <th>Idtransmission</th>
+                <td>{{ torrent.idTransmission }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ torrent.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('torrent_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

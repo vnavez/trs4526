@@ -78,9 +78,6 @@ class CheckTorrentCommand extends ContainerAwareCommand
         }
         $em->flush();
 
-        var_dump($torrents);
-        die;
-
     }
 
 }

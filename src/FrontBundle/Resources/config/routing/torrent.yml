@@ -1,0 +1,12 @@
+torrent_index:
+    path:     /
+    defaults: { _controller: "FrontBundle:Torrent:index" }
+    methods:  GET
+
+torrent_show:
+    path:     /{id}/show
+    defaults: { _controller: "FrontBundle:Torrent:show" }
+    methods:  GET
+
+
+
