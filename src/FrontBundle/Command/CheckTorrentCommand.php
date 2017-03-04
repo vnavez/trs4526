@@ -57,7 +57,9 @@ class CheckTorrentCommand extends ContainerAwareCommand
             $k++;
         }
 
+        $ids = array();
         foreach ($torrents as $line) {
+            array_push($ids, $line['ID']);
             /** @var Torrent $torrent */
             $torrent = $em->getRepository('FrontBundle:Torrent')->findOneBy(array('idTransmission' => $line['ID']));
             if (!$torrent){
@@ -76,7 +78,17 @@ class CheckTorrentCommand extends ContainerAwareCommand
                 $em->persist($torrent);
             }
         }
+
         $em->flush();
+
+        $torrents = $em->getRepository('FrontBundle:Torrent')->getUnavailableTorrents($ids);
+        foreach ($torrents as $torrent) {
+            $torrent->setStatus($status->getStatusByCode('unavailable'));
+            $em->persist($torrent);
+        }
+        $em->flush();
+
+
 
     }
 

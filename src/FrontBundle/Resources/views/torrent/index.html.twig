@@ -7,12 +7,11 @@
         <thead>
         <tr>
             <th>Id</th>
-            <th>Idt411</th>
-            <th>Idtransmission</th>
+            <th>ID Distant</th>
+            <th>ID Interne</th>
             <th>User</th>
             <th>Name</th>
             <th>Statut</th>
-            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -23,14 +22,7 @@
                 <td>{{ torrent.idTransmission }}</td>
                 <td>{% if torrent.user %}{{ torrent.user.username }}{% else %}{{ 'Aucun' }}{% endif %}</td>
                 <td>{{ torrent.name }}</td>
-                <td>{% if torrent.status %}{{ torrent.status.name }}{% endif %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('torrent_show', { 'id': torrent.id }) }}">show</a>
-                        </li>
-                    </ul>
-                </td>
+                <td><span class="label{% if torrent.status %} {{ torrent.status.color }}{% endif %}">{% if torrent.status %}{{ torrent.status.name }}{% endif %}</span></td>
             </tr>
         {% endfor %}
         </tbody>

@@ -10,4 +10,18 @@ namespace FrontBundle\Repository;
  */
 class TorrentRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /**
+     * @param $ids
+     * @return array
+     */
+    public function getUnavailableTorrents($ids)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.idTransmission NOT IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->getQuery()
+            ->getResult();
+    }
+
 }
