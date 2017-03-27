@@ -61,7 +61,7 @@ class CheckTorrentCommand extends ContainerAwareCommand
         foreach ($torrents as $line) {
             array_push($ids, $line['ID']);
             /** @var Torrent $torrent */
-            $torrent = $em->getRepository('FrontBundle:Torrent')->findOneBy(array('idTransmission' => $line['ID']));
+            $torrent = $em->getRepository('FrontBundle:Torrent')->findOneBy(array('idTransmission' => $line['ID'], 'name' => $line['Name']));
             if (!$torrent){
                 $obj = new Torrent();
                 $obj->setIdTransmission(intval($line['ID']));
