@@ -22,6 +22,11 @@ class Status
      */
     private $color;
 
+    /**
+     * @var boolean
+     */
+    private $downloaded;
+
 
     /**
      * Get id
@@ -108,5 +113,30 @@ class Status
     public function getCode()
     {
         return $this->code;
+    }
+
+
+    /**
+     * Set downloaded
+     *
+     * @param boolean $downloaded
+     *
+     * @return Status
+     */
+    public function setDownloaded($downloaded)
+    {
+        $this->downloaded = $downloaded;
+
+        return $this;
+    }
+
+    /**
+     * Get downloaded
+     *
+     * @return boolean
+     */
+    public function getDownloaded()
+    {
+        return $this->downloaded;
     }
 }

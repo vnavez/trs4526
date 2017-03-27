@@ -6,6 +6,7 @@ use FrontBundle\Entity\Torrent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Torrent controller.
@@ -32,16 +33,20 @@ class TorrentController extends Controller
     }
 
     /**
-     * Finds and displays a torrent entity.
-     *
-     * @Route("/{id}", name="torrent_show")
+     * @param Torrent $torrent
+     * @Route ("/delete/{id}", name="torrent_delete")
      * @Method("GET")
      */
-    public function showAction(Torrent $torrent)
+    public function deleteAction(Request $request, Torrent $torrent)
     {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($torrent);
+        $em->flush();
 
-        return $this->render('FrontBundle:torrent:show.html.twig', array(
-            'torrent' => $torrent,
-        ));
+        if ($request->isXmlHttpRequest()) {
+            die(json_encode(array('success' => 'Torrent supprimé avec succès')));
+        }
+
+        $this->redirectToRoute('torrent_index');
     }
 }

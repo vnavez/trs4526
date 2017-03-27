@@ -83,8 +83,7 @@ class CheckTorrentCommand extends ContainerAwareCommand
 
         $torrents = $em->getRepository('FrontBundle:Torrent')->getUnavailableTorrents($ids);
         foreach ($torrents as $torrent) {
-            $torrent->setStatus($status->getStatusByCode('unavailable'));
-            $em->persist($torrent);
+            $em->remove($torrent);
         }
         $em->flush();
 

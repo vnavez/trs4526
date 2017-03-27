@@ -18,4 +18,6 @@ FrontBundle\Entity\Status:
         code:
             type: string
             length: 255
+        downloaded:
+            type: boolean
     lifecycleCallbacks: {  }
