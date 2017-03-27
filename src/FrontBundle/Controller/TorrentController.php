@@ -49,4 +49,15 @@ class TorrentController extends Controller
 
         $this->redirectToRoute('torrent_index');
     }
+
+    /**
+     * @param Request $request
+     * @param Torrent $torrent
+     * @Route ("/changestate/{id}", name="torrent_change_sate")
+     * @Method("GET")
+     */
+    public function ChangeStateAction(Request $request, Torrent $torrent)
+    {
+
+    }
 }
