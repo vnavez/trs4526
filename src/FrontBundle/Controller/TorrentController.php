@@ -53,7 +53,7 @@ class TorrentController extends Controller
     /**
      * @param Request $request
      * @param Torrent $torrent
-     * @Route ("/changestate/{id}", name="torrent_change_sate")
+     * @Route ("/changestate/{id}", name="torrent_change_state")
      * @Method("GET")
      */
     public function ChangeStateAction(Request $request, Torrent $torrent)
