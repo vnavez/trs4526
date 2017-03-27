@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Process\Process;
 
 /**
  * Torrent controller.
@@ -40,6 +41,13 @@ class TorrentController extends Controller
     public function deleteAction(Request $request, Torrent $torrent)
     {
         $em = $this->getDoctrine()->getManager();
+
+        if (!$torrent->getIdTransmission())
+            die(json_encode(array('error' => 'Impossible de trouver l\'ID transmission associée à ce torren')));
+
+        $process = new Process('transmission-remote ' . $this->getParameter('transmission_host') . ':' . $this->getParameter('transmission_port') . ' -n ' . $this->getParameter('transmission_login') . ':' . $this->getParameter('transmission_password') . ' -t '.$torrent->getIdTransmission().' --remove-and-delete');
+        $process->run();
+
         $em->remove($torrent);
         $em->flush();
 

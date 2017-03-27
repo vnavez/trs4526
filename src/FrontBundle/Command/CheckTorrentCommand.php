@@ -87,8 +87,6 @@ class CheckTorrentCommand extends ContainerAwareCommand
         }
         $em->flush();
 
-
-
     }
 
 }
