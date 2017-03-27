@@ -64,7 +64,7 @@ class CheckTorrentCommand extends ContainerAwareCommand
             $torrent = $em->getRepository('FrontBundle:Torrent')->findOneBy(array('idTransmission' => $line['ID']));
             if (!$torrent){
                 $obj = new Torrent();
-                $obj->setIdTransmission($line['ID']);
+                $obj->setIdTransmission(intval($line['ID']));
                 $obj->setName($line['Name']);
                 $obj->setStatus($status->getStatusByCode('new'));
                 $em->persist($obj);
