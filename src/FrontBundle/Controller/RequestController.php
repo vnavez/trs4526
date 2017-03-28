@@ -23,6 +23,7 @@ class RequestController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $url = $request->get('url');
         $token = $request->get('token');
+        $id = intval($request->get('id'));
         $api = $this->get('api');
         $html = $this->get('html');
         $user = $this->get('user');
@@ -36,7 +37,8 @@ class RequestController extends Controller
             return new JsonResponse(array('error' => 'Please use your real token'));
 
         $api->auth($this->getParameter('api_login'), $this->getParameter('api_password'));
-        $id = $html->getTorrentId($url);
+        if (!$id)
+            $id = $html->getTorrentId($url);
 
         if ($em->getRepository('FrontBundle:Torrent')->findOneBy(array('idT411' => $id))) {
             return new JsonResponse(array('error' => 'Torrent already added'));
