@@ -27,6 +27,10 @@ class Torrent
      */
     private $status;
 
+    /**
+     * @var string
+     */
+    private $category;
 
     /**
      * Get id
@@ -195,5 +199,29 @@ class Torrent
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set category
+     *
+     * @param string $category
+     *
+     * @return Torrent
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return string
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

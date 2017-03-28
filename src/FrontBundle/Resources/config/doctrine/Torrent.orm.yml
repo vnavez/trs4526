@@ -21,6 +21,9 @@ FrontBundle\Entity\Torrent:
         name:
             type: string
             length: 255
+        category:
+            type: string
+            length: 255
     manyToOne:
         user:
             targetEntity: FrontBundle\Entity\User
