@@ -10,6 +10,7 @@
             <th>ID Distant</th>
             <th>User</th>
             <th>Name</th>
+            <th>Type</th>
             <th>Statut</th>
             <th></th>
         </tr>
@@ -24,6 +25,7 @@
                 <td>
                     <span class="label{% if torrent.status %} {{ torrent.status.color }}{% endif %}">{% if torrent.status %}{{ torrent.status.name }}{% endif %}</span>
                 </td>
+                <td><span class="label {% if torrent.category == "Animation" %}label-warning{% endif %}">{{ torrent.category }}</span></td>
                 <td class="text-right">
                     {% if torrent.user %}
                         <a href="{{ path('torrent_change_state', { 'id': torrent.id }) }}" class="check-torrent">
