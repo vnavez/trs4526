@@ -96,6 +96,6 @@ class Api
         if (isset($data->error))
             throw new ApiException($data->error);
 
-        return $result;
+        return $data;
     }
 }

@@ -70,7 +70,7 @@ class RequestController extends Controller
         $torrent->setName($name);
         $torrent->setStatus($status->getStatusByCode('new'));
         $torrent->setUser($user);
-        $torrent->setCategory($details->categoryName);
+        $torrent->setCategory($details->categoryname);
         $em->persist($torrent);
         $em->flush();
 
