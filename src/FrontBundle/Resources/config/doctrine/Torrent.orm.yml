@@ -24,6 +24,7 @@ FrontBundle\Entity\Torrent:
         category:
             type: string
             length: 255
+            nullable: true
     manyToOne:
         user:
             targetEntity: FrontBundle\Entity\User

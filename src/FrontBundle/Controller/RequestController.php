@@ -45,6 +45,7 @@ class RequestController extends Controller
         }
 
         $data = $api->download($id);
+        $details = $api->getDetails($id);
 
         $fs = new Filesystem();
         $fs->dumpFile($this->getParameter('torrent_directory') . '/' . $id . '.torrent', $data);
@@ -69,6 +70,7 @@ class RequestController extends Controller
         $torrent->setName($name);
         $torrent->setStatus($status->getStatusByCode('new'));
         $torrent->setUser($user);
+        $torrent->setCategory($details->categoryName);
         $em->persist($torrent);
         $em->flush();
 
