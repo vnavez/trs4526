@@ -1,0 +1,20 @@
+<tr>
+    <td>{{ torrent.idTransmission }}</td>
+    <td>{{ torrent.idT411 }}</td>
+    <td>{% if torrent.user %}{{ torrent.user.username }}{% else %}{{ 'Aucun' }}{% endif %}</td>
+    <td>{{ torrent.name }}</td>
+    <td>
+        <span class="label{% if torrent.status %} {{ torrent.status.color }}{% endif %}">{% if torrent.status %}{{ torrent.status.name }}{% endif %}</span>
+    </td>
+    <td><span class="label {% if torrent.category == "Animation" %}label-warning{% elseif torrent.category == "Sony" %}label-success{% elseif torrent.category == "Emission TV" %}label-default{% endif %}">{{ torrent.category }}</span></td>
+    <td class="text-right">
+        {% if torrent.user %}
+            <a href="{{ path('torrent_change_state', { 'id': torrent.id }) }}" class="check-torrent">
+                <span class="glyphicon glyphicon-save{% if torrent.status and torrent.status.downloaded %} active{% endif %}"></span>
+            </a>
+        {% endif %}
+        <a href="{{ path('torrent_delete', { 'id': torrent.id }) }}" class="delete-torrent">
+            <span class="glyphicon glyphicon-remove"></span>
+        </a>
+    </td>
+</tr>

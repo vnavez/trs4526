@@ -224,4 +224,62 @@ class Torrent
     {
         return $this->category;
     }
+    /**
+     * @var \DateTime
+     */
+    private $date_add;
+
+
+    /**
+     * Set dateAdd
+     *
+     * @param \DateTime $dateAdd
+     *
+     * @return Torrent
+     */
+    public function setDateAdd($dateAdd)
+    {
+        $this->date_add = $dateAdd;
+
+        return $this;
+    }
+
+    /**
+     * Get dateAdd
+     *
+     * @return \DateTime
+     */
+    public function getDateAdd()
+    {
+        return $this->date_add;
+    }
+    /**
+     * @var \DateTime
+     */
+    private $date_upd;
+
+
+    /**
+     * Set dateUpd
+     *
+     * @param \DateTime $dateUpd
+     *
+     * @return Torrent
+     */
+    public function setDateUpd($dateUpd)
+    {
+        $this->date_upd = $dateUpd;
+
+        return $this;
+    }
+
+    /**
+     * Get dateUpd
+     *
+     * @return \DateTime
+     */
+    public function getDateUpd()
+    {
+        return $this->date_upd;
+    }
 }

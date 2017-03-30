@@ -34,6 +34,15 @@ class TorrentController extends Controller
     }
 
     /**
+     * @Route("/refresh", name="torrent_refresh")
+     * @Method("GET")
+     */
+    public function refreshAction()
+    {
+        die("ok");
+    }
+
+    /**
      * @param Torrent $torrent
      * @Route ("/delete/{id}", name="torrent_delete")
      * @Method("GET")
@@ -66,6 +75,5 @@ class TorrentController extends Controller
      */
     public function ChangeStateAction(Request $request, Torrent $torrent)
     {
-
     }
 }

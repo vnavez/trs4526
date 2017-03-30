@@ -1,3 +1,21 @@
+var lastrefresh = new Date().getTime();
+
+$(document).ready(function() {
+    reloadTorrents();
+});
+
+function reloadTorrents() {
+    $.ajax({
+        url: $('#reload-url').attr('href')+"?time="+lastrefresh,
+        dataType: 'json',
+        type: 'GET',
+        success: function() {
+            lastrefresh = new Date().getTime();
+        }
+    });
+    setTimeout(reloadTorrents, 30000);
+}
+
 $(document).on('click', '.delete-torrent', function (e) {
     var el = $(this).parent().parent();
     var url = $(this).attr('href');
