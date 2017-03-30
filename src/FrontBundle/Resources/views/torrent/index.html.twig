@@ -25,7 +25,7 @@
                 <td>
                     <span class="label{% if torrent.status %} {{ torrent.status.color }}{% endif %}">{% if torrent.status %}{{ torrent.status.name }}{% endif %}</span>
                 </td>
-                <td><span class="label {% if torrent.category == "Animation" %}label-warning{% endif %}">{{ torrent.category }}</span></td>
+                <td><span class="label {% if torrent.category == "Animation" %}label-warning{% elseif torrent.category == "Sony" %}label-success{% elseif torrent.category == "Emission TV" %}label-default{% endif %}">{{ torrent.category }}</span></td>
                 <td class="text-right">
                     {% if torrent.user %}
                         <a href="{{ path('torrent_change_state', { 'id': torrent.id }) }}" class="check-torrent">
