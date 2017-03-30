@@ -71,6 +71,8 @@ class RequestController extends Controller
         $torrent->setStatus($status->getStatusByCode('new'));
         $torrent->setUser($user);
         $torrent->setCategory($details->categoryname);
+        $torrent->setDateAdd(new \DateTime('now'));
+        $torrent->setDateUpd(new \DateTime('now'));
         $em->persist($torrent);
         $em->flush();
 
