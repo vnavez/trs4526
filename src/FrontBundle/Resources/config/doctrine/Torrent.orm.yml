@@ -27,10 +27,8 @@ FrontBundle\Entity\Torrent:
             nullable: true
         date_add:
             type: datetime
-            columnDefinition: DATETIME DEFAULT CURRENT_TIMESTAMP
         date_upd:
             type: datetime
-            columnDefinition: DATETIME DEFAULT CURRENT_TIMESTAMP
     manyToOne:
         user:
             targetEntity: FrontBundle\Entity\User
