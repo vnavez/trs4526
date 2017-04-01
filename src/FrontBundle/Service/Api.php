@@ -98,4 +98,59 @@ class Api
 
         return $data;
     }
+
+    /**
+     * @param $search
+     * @return mixed
+     * @throws ApiException
+     */
+    public function search($search) {
+        if (!$this->_token)
+            throw new ApiException('Please auth before');
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://api.t411.ai/torrents/search/'.$search.'?limit=10000&order=seeders');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: '.$this->_token]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $result = curl_exec($ch);
+        $info = curl_getinfo($ch);
+        curl_close($ch);
+
+        if ($info['http_code'] != 200)
+            throw new ApiException('Error code on auth');
+
+        $data = json_decode($result);
+        if (isset($data->error))
+            throw new ApiException($data->error);
+
+        return $data;
+    }
+
+    /**
+     * @return mixed
+     * @throws ApiException
+     */
+    public function top100() {
+        if (!$this->_token)
+            throw new ApiException('Please auth before');
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://api.t411.ai/torrents/top/100');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: '.$this->_token]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $result = curl_exec($ch);
+        $info = curl_getinfo($ch);
+        curl_close($ch);
+
+        if ($info['http_code'] != 200)
+            throw new ApiException('Error code on auth');
+
+        $data = json_decode($result);
+        if (isset($data->error))
+            throw new ApiException($data->error);
+
+        return $data;
+    }
 }

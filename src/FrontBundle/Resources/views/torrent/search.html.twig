@@ -1,0 +1,20 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block content %}
+
+    <p>
+        {{ 'Vous avez recherché : ' }}{{ search }}.
+        {% if count_search > 1 %}
+            {{ count_search }} {{ 'résultats ont été trouvés' }}
+        {% elseif count_search == 1 %}
+            {{ count_search }} {{ 'résultat a été trouvé' }}
+        {% else %}
+            {{ 'Aucun résultat n\'a été trouvé' }}
+        {% endif %}
+    </p>
+
+    {% if count_search %}
+        {{ include("FrontBundle:torrent:listing/t411_list.html.twig", {'torrents': torrents}) }}
+    {% endif %}
+
+{% endblock %}

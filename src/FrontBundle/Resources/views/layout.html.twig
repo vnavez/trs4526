@@ -2,22 +2,26 @@
 
 {% block body %}
     <div class="container">
-        <section class="page-header">
-            <h1>
-                {% block page_title %}
-                    {{ 'Torrents' }}
-                {% endblock %}
-            </h1>
-        </section>
-        <section class="page-navigation">
-            <nav>
-                <ul class="nav nav-pills">
-                    <li role="presentation" class="active"><a href="#">Home</a></li>
-                    <li role="presentation"><a href="#">Profile</a></li>
-                    <li role="presentation"><a href="#">Messages</a></li>
+        <section class="page-header clearfix">
+            <nav class="pull-left">
+                <ul class="nav nav-tabs">
+                    <li role="presentation"{% if (app.request.get('_route') == 'torrent_index') %} class="active"{% endif %}><a href="{{ path('torrent_index') }}">{{ 'Transferts' }}</a></li>
+                    <li role="presentation"{% if (app.request.get('_route') == 'torrent_top100') %} class="active"{% endif %}><a href="{{ path('torrent_top100') }}">{{ 'Top 100' }}</a></li>
+                    <li role="presentation"{% if (app.request.get('_route') == 'torrent_search') %} class="active"{% endif %}><a href="#">{{ 'Recherche' }}</a></li>
                 </ul>
             </nav>
+
+            <form class="form-inline pull-right" method="GET" action="{{ path('torrent_search') }}">
+                <div class="form-group">
+                    <label class="sr-only" for="search">{{ 'Recherche' }} : </label>
+                    <div class="input-group">
+                        <input type="search" class="form-control" name="search" id="search" placeholder="{{ 'Tapez votre recherche' }}">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">{{ 'Valider' }}</button>
+            </form>
         </section>
+        <section id="heading-message"></section>
         <section class="page-content">
             {% block content %}{% endblock %}
         </section>

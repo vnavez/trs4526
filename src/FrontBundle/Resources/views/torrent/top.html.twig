@@ -1,0 +1,5 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block content %}
+    {{ include("FrontBundle:torrent:listing/t411_list.html.twig", {'torrents': torrents}) }}
+{% endblock %}

@@ -1,7 +1,7 @@
 var lastrefresh = new Date().getTime();
 
 $(document).ready(function() {
-    reloadTorrents();
+    //reloadTorrents();
 });
 
 function reloadTorrents() {
