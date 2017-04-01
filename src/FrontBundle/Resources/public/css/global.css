@@ -5,3 +5,20 @@
 nav .nav-tabs {
     border-bottom: 0;
 }
+
+.fixed-table-container {
+    border: 0;
+}
+
+.fixed-table-container thead th {
+    border-left: 0;
+}
+
+.fixed-table-container tbody td {
+    border-left: 0;
+}
+
+.fixed-table-container thead th .th-inner, .fixed-table-container tbody td .th-inner {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

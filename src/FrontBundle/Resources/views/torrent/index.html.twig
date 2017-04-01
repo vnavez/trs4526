@@ -5,14 +5,14 @@
 {% endblock %}
 
 {% block content %}
-    <table class="table table-responsive table-condensed table-hover">
+    <table class="table table-responsive table-condensed table-hover" data-toggle="table">
         <thead>
         <tr>
-            <th>ID Transmission</th>
-            <th>User</th>
-            <th>Name</th>
-            <th>Statut</th>
-            <th>Type</th>
+            <th data-field="idTransmission" data-sortable="true">ID Transmission</th>
+            <th data-field="user" data-sortable="true">User</th>
+            <th data-field="name" data-sortable="true">Name</th>
+            <th data-field="status" data-sortable="true">Statut</th>
+            <th data-field="type" data-sortable="true">Type</th>
             <th></th>
         </tr>
         </thead>
