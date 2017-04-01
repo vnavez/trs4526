@@ -38,11 +38,8 @@ $(document).on('click', '.delete-torrent', function (e) {
                     showSuccess(response.success);
                     el.remove();
                 }
-                else
-                    showError('Erreur lors de la suppression du torrent')
             },
             error: function(response) {
-                showError('Erreur requête, statut '+response.status);
             }
         })
     });

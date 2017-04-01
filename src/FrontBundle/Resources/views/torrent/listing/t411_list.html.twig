@@ -12,14 +12,14 @@
     {% for torrent in torrents %}
         <tr>
             <td class="text-right">
-                <a href="#" class="download-torrent">
+                <a href="{{ path('request_send', {id: torrent.id, token: 'BE91AE97B1F44BD12C142F671D1AA'}) }}" class="download-torrent">
                     <span class="glyphicon glyphicon-save"></span>
                 </a>
             </td>
             <td>{{ torrent.name }}</td>
             <td><span class="label {{ torrent.categoryname|type_color }}">{{ torrent.categoryname }}</span></td>
             <td>{{ torrent.seeders }}</td>
-            <td>{{ torrent.added|date("m/d/Y") }}</td>
+            <td>{{ torrent.added|date("d/m/Y") }}</td>
         </tr>
     {% endfor %}
     </tbody>

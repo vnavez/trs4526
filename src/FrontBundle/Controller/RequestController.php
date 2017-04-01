@@ -16,7 +16,6 @@ class RequestController extends Controller
 {
     /**
      * @Route("/send", name="request_send")
-     * @Method("POST")
      */
     public function sendAction(Request $request)
     {
@@ -76,7 +75,8 @@ class RequestController extends Controller
         $em->persist($torrent);
         $em->flush();
 
-        return new JsonResponse(array('success' => true));
+
+        return $this->redirectToRoute('torrent_index');
     }
 
 }
