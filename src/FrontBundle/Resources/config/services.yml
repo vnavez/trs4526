@@ -33,3 +33,8 @@ services:
     status:
         class: FrontBundle\Service\Status
         arguments: ["@statusRepository", %status%]
+    twig_extension:
+        class: FrontBundle\Twig\FrontExtension
+        public: false
+        tags:
+            - { name: twig.extension }

@@ -1,7 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'FrontBundle::layout.html.twig' %}
 
-{% block body %}
-    <h1>Torrents list</h1>
+{% block page_title %}
+    {{ 'Torrents List' }}
+{% endblock %}
+
+{% block content %}
     <section id="heading-message"></section>
     <table class="table table-responsive table-condensed table-hover">
         <thead>
