@@ -23,6 +23,7 @@ class RequestController extends Controller
         $url = $request->get('url');
         $token = $request->get('token');
         $id = intval($request->get('id'));
+        $type = $request->get('type');
         $api = $this->get('api');
         $html = $this->get('html');
         $user = $this->get('user');
@@ -36,15 +37,21 @@ class RequestController extends Controller
             return new JsonResponse(array('error' => 'Please use your real token'));
 
         $api->auth($this->getParameter('api_login'), $this->getParameter('api_password'));
-        if (!$id)
+        if (!$id && $type == 't411')
             $id = $html->getTorrentId($url);
+        else
+            $id = uniqid();
 
         if ($em->getRepository('FrontBundle:Torrent')->findOneBy(array('idT411' => $id))) {
             return new JsonResponse(array('error' => 'Torrent already added'));
         }
 
-        $data = $api->download($id);
-        $details = $api->getDetails($id);
+        if ($type == 't411') {
+            $data = $api->download($id);
+            $details = $api->getDetails($id);
+        } else {
+            $data = $api->downloadOther($url);
+        }
 
         $fs = new Filesystem();
         $fs->dumpFile($this->getParameter('torrent_directory') . '/' . $id . '.torrent', $data);
@@ -69,7 +76,7 @@ class RequestController extends Controller
         $torrent->setName($name);
         $torrent->setStatus($status->getStatusByCode('new'));
         $torrent->setUser($user);
-        $torrent->setCategory($details->categoryname);
+        $torrent->setCategory(isset($details) ? $details->categoryname : 'Unknown');
         $torrent->setDateAdd(new \DateTime('now'));
         $torrent->setDateUpd(new \DateTime('now'));
         $em->persist($torrent);

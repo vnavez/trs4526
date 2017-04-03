@@ -84,6 +84,20 @@ class TorrentController extends Controller
     }
 
     /**
+     * @Route ("/today", name="torrent_today")
+     * @Method("GET")
+     */
+    public function todayAction(Request $request) {
+        $api = $this->get('api');
+        $api->auth($this->getParameter('api_login'), $this->getParameter('api_password'));
+        $torrents = $api->today();
+
+        return $this->render('FrontBundle:torrent:top.html.twig', array(
+            'torrents' => $torrents
+        ));
+    }
+
+    /**
      * @param Torrent $torrent
      * @Route ("/delete/{id}", name="torrent_delete")
      * @Method("GET")

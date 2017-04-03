@@ -72,6 +72,19 @@ class Api
     }
 
     /**
+     * @param $url
+     * @return mixed
+     */
+    public function downloadOther($url) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
+    }
+
+    /**
      * @param $id
      * @return mixed
      * @throws ApiException
@@ -137,6 +150,33 @@ class Api
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'https://api.t411.ai/torrents/top/100');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: '.$this->_token]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $result = curl_exec($ch);
+        $info = curl_getinfo($ch);
+        curl_close($ch);
+
+        if ($info['http_code'] != 200)
+            throw new ApiException('Error code on auth');
+
+        $data = json_decode($result);
+        if (isset($data->error))
+            throw new ApiException($data->error);
+
+        return $data;
+    }
+
+    /**
+     * @return mixed
+     * @throws ApiException
+     */
+    public function today() {
+        if (!$this->_token)
+            throw new ApiException('Please auth before');
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://api.t411.ai/torrents/top/today');
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: '.$this->_token]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
