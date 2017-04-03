@@ -39,7 +39,7 @@ class RequestController extends Controller
         $api->auth($this->getParameter('api_login'), $this->getParameter('api_password'));
         if (!$id && $type == 't411')
             $id = $html->getTorrentId($url);
-        else
+        elseif (!$id)
             $id = uniqid();
 
         if ($em->getRepository('FrontBundle:Torrent')->findOneBy(array('idT411' => $id))) {
