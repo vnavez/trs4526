@@ -82,6 +82,9 @@ class RequestController extends Controller
         $em->persist($torrent);
         $em->flush();
 
+        if($request->isXmlHttpRequest()) {
+            return new JsonResponse(array('success' => true));
+        }
 
         return $this->redirectToRoute('torrent_index');
     }
