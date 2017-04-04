@@ -15,4 +15,7 @@ FrontBundle\Entity\User:
         username:
             type: string
             length: 255
+        email:
+            type: string
+            length: 255
     lifecycleCallbacks: {  }
