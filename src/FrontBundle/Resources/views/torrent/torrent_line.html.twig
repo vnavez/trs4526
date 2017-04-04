@@ -7,7 +7,7 @@
     <td><span class="label {{ torrent.category|type_color }}">{{ torrent.category }}</span></td>
     <td class="text-right">
         {% if torrent.user %}
-            <a href="{{ path('torrent_change_state', { 'id': torrent.id }) }}" class="check-torrent">
+            <a href="{{ path('torrent_enable_transfert', { 'id': torrent.id }) }}" class="enable-transfert">
                 <span class="glyphicon glyphicon-save{% if torrent.status and torrent.status.downloaded %} active{% endif %}"></span>
             </a>
         {% endif %}

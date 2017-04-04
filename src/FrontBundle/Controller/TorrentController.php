@@ -7,6 +7,7 @@ use FrontBundle\Entity\Torrent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Process\Process;
 
@@ -123,7 +124,7 @@ class TorrentController extends Controller
     }
 
     /**
-     * @Route ("/changestate/{id}", name="torrent_change_state")
+     * @Route ("/enable-transfert/{id}", name="torrent_enable_transfert")
      * @Method("GET")
      */
     public function ChangeStateAction(Request $request, Torrent $torrent)
@@ -135,6 +136,11 @@ class TorrentController extends Controller
         $torrent->setStatus($status->getStatusByCode('waiting'));
         $em->persist($torrent);
         $em->flush();
+
+        if($request->isXmlHttpRequest()) {
+            $data = $this->renderView('FrontBundle:torrent:torrent_line.html.twig', array('torrent' => $torrent));
+            return new JsonResponse(array('success' => true, 'data' => $data), 200);
+        }
 
         return $this->redirectToRoute('torrent_index');
     }

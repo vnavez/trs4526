@@ -35,7 +35,6 @@ $(document).on('click', '.delete-torrent', function (e) {
             },
             success: function (response) {
                 if (response.success) {
-                    showSuccess(response.success);
                     el.remove();
                 }
             },
@@ -46,23 +45,25 @@ $(document).on('click', '.delete-torrent', function (e) {
     $('#delete-modal').modal();
 });
 
-function showError(response) {
-    showAlert('Une erreur est survenue : ', response, 'alert-danger');
-}
-
-function showSuccess(response) {
-    showAlert('Confirmation : ', response, 'alert-success');
-}
-
-function showAlert(header, content, type) {
-    $('#heading-message').empty();
-    $('<div/>', {
-        id: 'heading-alert',
-        class: 'alert '+type+' alert-dismissible fade in',
-        role: 'alert',
-        text: content
-    }).appendTo('#heading-message');
-    $('<strong/>', {
-        text: header
-    }).prependTo('#heading-alert');
-}
+$(document).on('click', '.enable-transfert', function(e) {
+    var el = $(this).parent().parent();
+    $.ajax({
+        url: $(this).attr('href'),
+        dataType: 'json',
+        type: 'GET',
+        beforeSend: function () {
+            el.css('opacity', '0.5');
+        },
+        complete: function () {
+            el.css('opacity', '1');
+        },
+        success: function (response) {
+            if (response.success) {
+                el.replaceWith(response.data);
+            }
+        },
+        error: function(response) {
+        }
+    });
+    return false;
+});
