@@ -8,6 +8,7 @@ parameters:
         done: DONE
         pause: PAUSE
         unavailable: UNAVAILABLE
+        waiting: WAITING
 services:
     userRepository:
         class: Doctrine\ORM\EntityRepository

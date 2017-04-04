@@ -132,7 +132,7 @@ class TorrentController extends Controller
         $em = $this->get('doctrine')->getEntityManager();
 
         $status = $this->get('status');
-        $torrent->setStatus($status->getStatusByCode('transfert'));
+        $torrent->setStatus($status->getStatusByCode('waiting'));
         $em->persist($torrent);
         $em->flush();
 

@@ -44,7 +44,7 @@ class TransfertCommand extends ContainerAwareCommand {
         }
 
         /** @var Torrent $torrent */
-        $torrent = $em->getRepository('FrontBundle:Torrent')->findOneBy(array('status' => $status->getStatusByCode('downloaded')));
+        $torrent = $em->getRepository('FrontBundle:Torrent')->findOneBy(array('status' => $status->getStatusByCode('waiting')));
         $torrent->setStatus($status->getStatusByCode('transfert'));
         $em->persist($torrent);
         $em->flush();
