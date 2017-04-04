@@ -1,5 +1,5 @@
 <tr>
-    <td>{% if torrent.user and torrent.user.email %}<img src="{{ torrent.user.avatar }}" title="{{ torrent.user.username }}" width="20" height="20" />{% endif %}</td>
+    <td class="text-center">{% if torrent.user and torrent.user.email %}<img src="{{ torrent.user.avatar }}" title="{{ torrent.user.username }}" width="20" height="20" />{% endif %}</td>
     <td>{{ torrent.name }}</td>
     <td>
         <span class="label{% if torrent.status %} {{ torrent.status.color }}{% endif %}">{% if torrent.status %}{{ torrent.status.name }}{% endif %}</span>
