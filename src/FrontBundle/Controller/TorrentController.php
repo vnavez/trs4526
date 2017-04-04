@@ -99,7 +99,6 @@ class TorrentController extends Controller
     }
 
     /**
-     * @param Torrent $torrent
      * @Route ("/delete/{id}", name="torrent_delete")
      * @Method("GET")
      */
@@ -120,12 +119,10 @@ class TorrentController extends Controller
             die(json_encode(array('success' => 'Torrent supprimé avec succès')));
         }
 
-        $this->redirectToRoute('torrent_index');
+        return $this->redirectToRoute('torrent_index');
     }
 
     /**
-     * @param Request $request
-     * @param Torrent $torrent
      * @Route ("/changestate/{id}", name="torrent_change_state")
      * @Method("GET")
      */
@@ -139,7 +136,7 @@ class TorrentController extends Controller
         $em->persist($torrent);
         $em->flush();
 
-        $this->redirectToRoute('torrent_index');
+        return $this->redirectToRoute('torrent_index');
     }
 
 
