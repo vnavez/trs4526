@@ -2,6 +2,7 @@
 
 namespace FrontBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use FrontBundle\Entity\Torrent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -130,6 +131,15 @@ class TorrentController extends Controller
      */
     public function ChangeStateAction(Request $request, Torrent $torrent)
     {
+        /** @var EntityManager $em */
+        $em = $this->get('doctrine')->getEntityManager();
+
+        $status = $this->get('status');
+        $torrent->setStatus($status->getStatusByCode('transfert'));
+        $em->persist($torrent);
+        $em->flush();
+
+        $this->redirectToRoute('torrent_index');
     }
 
 
