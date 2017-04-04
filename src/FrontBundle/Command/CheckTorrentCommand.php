@@ -71,6 +71,15 @@ class CheckTorrentCommand extends ContainerAwareCommand
                 $obj->setDateUpd(new \DateTime('now'));
                 $em->persist($obj);
             } else {
+
+                if (!in_array($torrent->getStatus(), array(
+                    $status->getStatusByCode('new'),
+                    $status->getStatusByCode('downloaded'),
+                    $status->getStatusByCode('pause'),
+                    $status->getStatusByCode('progressing'),
+                )))
+                    continue;
+
                 if ($torrent->getName() != $line['Name']) {
                     $torrent->setName($line['Name']);
                     $torrent->setStatus($status->getStatusByCode('new'));
