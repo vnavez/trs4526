@@ -4,6 +4,7 @@ namespace FrontBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
 use FrontBundle\Entity\Torrent;
+use FrontBundle\Service\Api;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -51,6 +52,7 @@ class TorrentController extends Controller
     public function searchAction(Request $request)
     {
         $search = $request->get('search');
+        /** @var Api $api */
         $api = $this->get('api');
         $torrents = array();
         $count = 0;
