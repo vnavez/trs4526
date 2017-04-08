@@ -282,4 +282,62 @@ class Torrent
     {
         return $this->date_upd;
     }
+    /**
+     * @var integer
+     */
+    private $ratio = 0;
+
+
+    /**
+     * Set ratio
+     *
+     * @param integer $ratio
+     *
+     * @return Torrent
+     */
+    public function setRatio($ratio)
+    {
+        $this->ratio = $ratio;
+
+        return $this;
+    }
+
+    /**
+     * Get ratio
+     *
+     * @return integer
+     */
+    public function getRatio()
+    {
+        return $this->ratio;
+    }
+    /**
+     * @var float
+     */
+    private $percent = 0;
+
+
+    /**
+     * Set percent
+     *
+     * @param float $percent
+     *
+     * @return Torrent
+     */
+    public function setPercent($percent)
+    {
+        $this->percent = $percent;
+
+        return $this;
+    }
+
+    /**
+     * Get percent
+     *
+     * @return float
+     */
+    public function getPercent()
+    {
+        return $this->percent;
+    }
 }

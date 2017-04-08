@@ -72,24 +72,24 @@ class CheckTorrentCommand extends ContainerAwareCommand
                 $em->persist($obj);
             } else {
 
-                if (!in_array($torrent->getStatus(), array(
+                if (in_array($torrent->getStatus(), array(
                     $status->getStatusByCode('new'),
                     $status->getStatusByCode('downloaded'),
                     $status->getStatusByCode('pause'),
                     $status->getStatusByCode('progressing'),
-                )))
-                    continue;
-
-                if ($torrent->getName() != $line['Name']) {
-                    $torrent->setName($line['Name']);
-                    $torrent->setStatus($status->getStatusByCode('new'));
+                ))) {
+                    if ($torrent->getName() != $line['Name']) {
+                        $torrent->setName($line['Name']);
+                        $torrent->setStatus($status->getStatusByCode('new'));
+                    } elseif ($line['Status'] == 'Stopped')
+                        $torrent->setStatus($status->getStatusByCode('pause'));
+                    elseif ($line['Done'] == '100%')
+                        $torrent->setStatus($status->getStatusByCode('downloaded'));
+                    else
+                        $torrent->setStatus($status->getStatusByCode('progressing'));
                 }
-                elseif ($line['Status'] == 'Stopped')
-                    $torrent->setStatus($status->getStatusByCode('pause'));
-                elseif ($line['Done'] == '100%')
-                    $torrent->setStatus($status->getStatusByCode('downloaded'));
-                else
-                    $torrent->setStatus($status->getStatusByCode('progressing'));
+                $torrent->setRatio($line['Ratio']);
+                $torrent->setPercent(floatval($line['Done']));
                 $torrent->setDateUpd(new \DateTime('now'));
                 $em->persist($torrent);
             }

@@ -25,6 +25,14 @@ FrontBundle\Entity\Torrent:
             type: string
             length: 255
             nullable: true
+        ratio:
+            type: float
+            options:
+                default: 0
+        percent:
+            type: float
+            options:
+                default: 0
         date_add:
             type: datetime
         date_upd:
