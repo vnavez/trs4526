@@ -53,6 +53,7 @@ class TransfertCommand extends ContainerAwareCommand {
         $name = preg_replace('/\'/', '*', $name);
 
         $process = new Process('ssh admin@192.168.0.16 \'scp -r vnavez@lw321.ultraseedbox.com:"files/'.$name.'" /volume2/Transfert/'.$name.'\'');
+        $process->setTimeout(7200);
         $process->run();
 
         $torrent->setStatus($status->getStatusByCode('done'));
