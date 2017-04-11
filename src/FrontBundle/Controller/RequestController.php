@@ -2,7 +2,9 @@
 
 namespace FrontBundle\Controller;
 
+use FrontBundle\Exception\ApiException;
 use FrontBundle\FrontBundle;
+use FrontBundle\Service\Api;
 use FrontBundle\Service\Torrent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -14,6 +16,7 @@ use Symfony\Component\Process\Process;
 
 class RequestController extends Controller
 {
+
     /**
      * @Route("/send", name="request_send")
      */
@@ -24,6 +27,7 @@ class RequestController extends Controller
         $token = $request->get('token');
         $id = intval($request->get('id'));
         $type = $request->get('type');
+        /** @var Api $api */
         $api = $this->get('api');
         $html = $this->get('html');
         $user = $this->get('user');
@@ -32,11 +36,22 @@ class RequestController extends Controller
         if (!$token)
             return new JsonResponse(array('error' => 'Please use your token'));
 
+        if (!in_array($type, array('t411', 't9')))
+            return new JsonResponse(array('error' => 'No support type'));
+
         $user = $user->isAuthorizedToken($token);
         if (!$user)
             return new JsonResponse(array('error' => 'Please use your real token'));
 
-        $api->auth($this->getParameter('api_login'), $this->getParameter('api_password'));
+        $apiState = true;
+        if ($type == 't411') {
+            try {
+                $api->auth($this->getParameter('api_login'), $this->getParameter('api_password'));
+            } catch (ApiException $e) {
+                $apiState = false;
+            }
+        }
+
         if (!$id && $type == 't411')
             $id = $html->getTorrentId($url);
         elseif (!$id)
@@ -47,8 +62,9 @@ class RequestController extends Controller
         }
 
         if ($type == 't411') {
-            $data = $api->download($id);
-            $details = $api->getDetails($id);
+            $data = $api->download($id, $apiState, $this->getParameter('torrent_directory').'/cookie');
+            if ($apiState)
+                $details = $api->getDetails($id);
         } else {
             $data = $api->downloadOther($url);
         }
