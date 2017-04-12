@@ -98,7 +98,7 @@ class RequestController extends Controller
         $em->persist($torrent);
         $em->flush();
 
-        if($request->isXmlHttpRequest()) {
+        if($request->get('ajax')) {
             return new JsonResponse(array('success' => true));
         }
 
