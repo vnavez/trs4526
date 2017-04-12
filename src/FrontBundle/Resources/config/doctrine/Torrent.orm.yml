@@ -49,4 +49,9 @@ FrontBundle\Entity\Torrent:
             joinColumn:
                 name: id_status
                 referencedColumName: id
+        transfert:
+            targetEntity: FrontBundle\Entity\Status
+            joinColumn:
+                name: id_transfert
+                referencedColumName: id
     lifecycleCallbacks: {  }

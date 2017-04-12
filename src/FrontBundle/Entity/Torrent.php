@@ -340,4 +340,33 @@ class Torrent
     {
         return $this->percent;
     }
+    /**
+     * @var \FrontBundle\Entity\Status
+     */
+    private $transfert;
+
+
+    /**
+     * Set transfert
+     *
+     * @param \FrontBundle\Entity\Status $transfert
+     *
+     * @return Torrent
+     */
+    public function setTransfert(\FrontBundle\Entity\Status $transfert = null)
+    {
+        $this->transfert = $transfert;
+
+        return $this;
+    }
+
+    /**
+     * Get transfert
+     *
+     * @return \FrontBundle\Entity\Status
+     */
+    public function getTransfert()
+    {
+        return $this->transfert;
+    }
 }

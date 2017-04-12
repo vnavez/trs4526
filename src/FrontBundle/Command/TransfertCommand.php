@@ -36,16 +36,16 @@ class TransfertCommand extends ContainerAwareCommand {
         if (count(explode("\n", $output)) > 2)
             return;
 
-        $torrent = $em->getRepository('FrontBundle:Torrent')->findOneBy(array('status' => $status->getStatusByCode('transfert')));
+        $torrent = $em->getRepository('FrontBundle:Torrent')->findOneBy(array('transfert' => $status->getStatusByCode('transfert')));
         if ($torrent) {
-            $torrent->setStatus($status->getStatusByCode('error'));
+            $torrent->setTransfert($status->getStatusByCode('error'));
             $em->persist($torrent);
             $em->flush();
         }
 
         /** @var Torrent $torrent */
-        $torrent = $em->getRepository('FrontBundle:Torrent')->findOneBy(array('status' => $status->getStatusByCode('waiting')));
-        $torrent->setStatus($status->getStatusByCode('transfert'));
+        $torrent = $em->getRepository('FrontBundle:Torrent')->findOneBy(array('transfert' => $status->getStatusByCode('waiting')));
+        $torrent->setTransfert($status->getStatusByCode('transfert'));
         $em->persist($torrent);
         $em->flush();
 
@@ -56,7 +56,7 @@ class TransfertCommand extends ContainerAwareCommand {
         $process->setTimeout(7200);
         $process->run();
 
-        $torrent->setStatus($status->getStatusByCode('done'));
+        $torrent->setTransfert($status->getStatusByCode('done'));
         $em->persist($torrent);
         $em->flush();
 

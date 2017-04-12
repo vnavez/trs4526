@@ -15,6 +15,17 @@
         {% endif %}
     </td>
     <td>
+        {% if torrent.transfert %}
+            <div class="progress" style="width: 150px">
+                <div class="progress-bar progress-bar-striped {{ torrent.torrent.color }}" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: {{ torrent.percent }}%">
+                    {{ torrent.torrent.name }}
+                </div>
+            </div>
+        {% else %}
+            -
+        {% endif %}
+    </td>
+    <td>
         {% if torrent.ratio >= 1 %}
             <i class="glyphicon glyphicon-ok text-success"></i>
         {% else %}
