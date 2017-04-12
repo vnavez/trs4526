@@ -2,6 +2,7 @@
 
 namespace FrontBundle\Controller;
 
+use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\EntityManager;
 use FrontBundle\Entity\Torrent;
 use FrontBundle\Service\Api;
@@ -42,7 +43,15 @@ class TorrentController extends Controller
      */
     public function refreshAction()
     {
-        die("ok");
+        $date = new \DateTime();
+        $date->sub(new \DateInterval('PT15S'));
+
+        $em = $this->getDoctrine()->getManager();
+        $torrents = $em->getRepository('FrontBundle:Torrent')->getLastUpdTorrents($date);
+
+        echo '<pre>';
+        Debug::dump($torrents);
+        die;
     }
 
     /**

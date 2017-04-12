@@ -24,4 +24,16 @@ class TorrentRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
+    /**
+     * @param $date
+     * @return array
+     */
+    public function getLastUpdTorrents($date) {
+        return $this->createQueryBuilder('p')
+            ->where('p.date_upd >= :d')
+            ->setParameter('d', $date)
+            ->getQuery()
+            ->getResult();
+    }
+
 }
