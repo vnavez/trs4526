@@ -62,7 +62,7 @@ class CheckTorrentCommand extends ContainerAwareCommand
             array_push($ids, $line['ID']);
             /** @var Torrent $torrent */
             $torrent = $em->getRepository('FrontBundle:Torrent')->findOneBy(array('idTransmission' => $line['ID']));
-            if (!$torrent){
+            if (!$torrent) {
                 $obj = new Torrent();
                 $obj->setIdTransmission(intval($line['ID']));
                 $obj->setName($line['Name']);
@@ -71,7 +71,7 @@ class CheckTorrentCommand extends ContainerAwareCommand
                 $obj->setDateUpd(new \DateTime('now'));
                 $em->persist($obj);
             } else {
-
+                $hasUpdated = false;
                 if (in_array($torrent->getStatus(), array(
                     $status->getStatusByCode('new'),
                     $status->getStatusByCode('downloaded'),
@@ -81,12 +81,17 @@ class CheckTorrentCommand extends ContainerAwareCommand
                     if ($torrent->getName() != $line['Name']) {
                         $torrent->setName($line['Name']);
                         $torrent->setStatus($status->getStatusByCode('new'));
-                    } elseif ($line['Status'] == 'Stopped')
+                        $hasUpdated = true;
+                    } elseif ($line['Status'] == 'Stopped') {
                         $torrent->setStatus($status->getStatusByCode('pause'));
-                    elseif ($line['Done'] == '100%')
+                        $hasUpdated = true;
+                    } elseif ($line['Done'] == '100%') {
                         $torrent->setStatus($status->getStatusByCode('downloaded'));
-                    else
+                        $hasUpdated = true;
+                    } else {
                         $torrent->setStatus($status->getStatusByCode('progressing'));
+                        $hasUpdated = true;
+                    }
                 }
                 $torrent->setRatio($line['Ratio']);
                 $torrent->setPercent(floatval($line['Done']));

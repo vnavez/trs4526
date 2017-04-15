@@ -16,7 +16,7 @@ use Symfony\Component\Process\Process;
 /**
  * Torrent controller.
  *
- * @Route("torrent")
+ * @Route("")
  */
 class TorrentController extends Controller
 {
@@ -132,6 +132,16 @@ class TorrentController extends Controller
         }
 
         return $this->redirectToRoute('torrent_index');
+    }
+
+    /**
+     * @Route ("/popup-transfert/{id}", name="torrent_popup_transfert")
+     * @Method("GET")
+     */
+    public function PopupTransferAction(Request $request, Torrent $torrent) {
+
+        /** @var EntityManager $em */
+        $em = $this->get('doctrine')->getEntityManager();
     }
 
     /**

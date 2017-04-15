@@ -2,25 +2,22 @@
 
 namespace FrontBundle\Entity;
 
+use FOS\UserBundle\Model\User as BaseUser;
+
 /**
  * User
  */
-class User
+class User extends BaseUser
 {
     /**
      * @var int
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      */
-    private $token;
-
-    /**
-     * @var string
-     */
-    private $email;
+    protected $token;
 
 
     /**
@@ -55,59 +52,6 @@ class User
     public function getToken()
     {
         return $this->token;
-    }
-    /**
-     * @var string
-     */
-    private $username;
-
-
-    /**
-     * Set username
-     *
-     * @param string $username
-     *
-     * @return User
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    /**
-     * Get username
-     *
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
     }
 
     /**

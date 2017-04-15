@@ -12,10 +12,5 @@ FrontBundle\Entity\User:
         token:
             type: string
             length: 255
-        username:
-            type: string
-            length: 255
-        email:
-            type: string
-            length: 255
+            nullable: true
     lifecycleCallbacks: {  }
