@@ -47,3 +47,7 @@ table {
 .progress {
     margin-bottom: 0;
 }
+
+#login-form {
+    margin-top: 20px;
+}
