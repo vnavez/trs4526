@@ -1,10 +1,17 @@
-html,body {
+html, body {
     min-height: 100%;
     height: 100%;
 }
 
 header.page-header {
     padding-bottom: 0;
+    margin-top: 0;
+}
+
+header #top-bar {
+    margin-bottom: 10px;
+    height: 40px;
+    background: #333;
 }
 
 nav .nav-tabs {
@@ -19,7 +26,7 @@ table {
     font-size: 13px;
 }
 
-.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
     vertical-align: middle;
 }
 
@@ -77,12 +84,53 @@ input:-webkit-autofill {
 #login-page.background-0 {
     background-image: url('../images/background-0.jpg');
 }
+
 #login-page.background-1 {
     background-image: url('../images/background-1.jpg');
 }
+
 #login-page.background-2 {
     background-image: url('../images/background-2.jpg');
 }
+
 #login-page.background-3 {
     background-image: url('../images/background-3.jpg');
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    border-radius: 0;
+}
+
+.nav-tabs > li > a {
+    color: white;
+    padding: 9px 15px;
+}
+
+.nav>li>a:focus {
+    background: #333;
+    border-color: #333 #333 #333;
+}
+
+.nav>li>a:hover {
+    border-color: white;
+    background: white;
+    border-radius: 0;
+    color: #555;
+}
+
+#search-form {
+    margin-bottom: 10px;
+}
+
+.user-info {
+    padding: 10px 0;
+    color: white;
+}
+
+.user-info a {
+    color: white;
+}
+
+.user-info img {
+    margin-left: 10px;
 }
