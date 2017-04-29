@@ -12,7 +12,7 @@
     {% for torrent in torrents %}
         <tr>
             <td class="text-right">
-                <a href="{{ path('request_send', {id: torrent.id, token: 'BE91AE97B1F44BD12C142F671D1AA', type: 't411'}) }}" class="download-torrent">
+                <a href="{{ path('request_send', {id: torrent.id, token: app.user.token, type: 't411'}) }}" class="download-torrent">
                     <span class="glyphicon glyphicon-save"></span>
                 </a>
             </td>
