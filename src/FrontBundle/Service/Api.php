@@ -24,7 +24,7 @@ class Api
         $this->_pass = $password;
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://api.t411.ai/auth');
+        curl_setopt($ch, CURLOPT_URL, 'https://api.t411.al/auth');
         curl_setopt($ch, CURLOPT_POST, 2);
         curl_setopt($ch, CURLOPT_POSTFIELDS, 'username=' . $this->_login . '&password=' . $this->_pass);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -60,7 +60,7 @@ class Api
 
         if (!$apiState) {
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'https://www.t411.ai/users/auth/');
+            curl_setopt($ch, CURLOPT_URL, 'https://www.t411.al/users/auth/');
             curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/32.0.1700.107 Chrome/32.0.1700.107 Safari/537.36');
             curl_setopt($ch, CURLOPT_POST, 2);
             curl_setopt($ch, CURLOPT_HEADER, 1);
@@ -73,7 +73,7 @@ class Api
             curl_close($ch);
 
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'https://www.t411.ai/torrents/download/?id=' . $id);
+            curl_setopt($ch, CURLOPT_URL, 'https://www.t411.al/torrents/download/?id=' . $id);
             curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/32.0.1700.107 Chrome/32.0.1700.107 Safari/537.36');
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -89,7 +89,7 @@ class Api
                 throw new ApiException('Please auth before');
 
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'https://api.t411.ai/torrents/download/' . $id);
+            curl_setopt($ch, CURLOPT_URL, 'https://api.t411.al/torrents/download/' . $id);
             curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: ' . $this->_token]);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
@@ -133,7 +133,7 @@ class Api
             throw new ApiException('Please auth before');
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://api.t411.ai/torrents/details/' . $id);
+        curl_setopt($ch, CURLOPT_URL, 'https://api.t411.al/torrents/details/' . $id);
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: ' . $this->_token]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
@@ -162,7 +162,7 @@ class Api
             throw new ApiException('Please auth before');
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://api.t411.ai/torrents/search/' . $search . '?limit=10000&order=seeders');
+        curl_setopt($ch, CURLOPT_URL, 'https://api.t411.al/torrents/search/' . $search . '?limit=10000&order=seeders');
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: ' . $this->_token]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
@@ -190,7 +190,7 @@ class Api
             throw new ApiException('Please auth before');
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://api.t411.ai/torrents/top/100');
+        curl_setopt($ch, CURLOPT_URL, 'https://api.t411.al/torrents/top/100');
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: ' . $this->_token]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
@@ -218,7 +218,7 @@ class Api
             throw new ApiException('Please auth before');
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://api.t411.ai/torrents/top/today');
+        curl_setopt($ch, CURLOPT_URL, 'https://api.t411.al/torrents/top/today');
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: ' . $this->_token]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
