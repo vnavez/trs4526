@@ -1,0 +1,14 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block page_title %}
+    {{ 'Torrents List' }}
+{% endblock %}
+
+{% form_theme form 'FrontBundle::form/fields.html.twig' %}
+
+
+{% block content %}
+    {{ form_start(form, { 'action': path('user_edit'), 'attr': { 'class': 'user_profile_edit' } }) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

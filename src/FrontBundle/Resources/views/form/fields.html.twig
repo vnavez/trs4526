@@ -1,0 +1,29 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block form_row %}
+    <div class="form-group">
+        {{ form_label(form, null, { 'label_attr' : {'class': 'control-label col-sm-2'} }) }}
+        <div class="col-sm-10">
+            {{ form_widget(form, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(form) }}
+        </div>
+    </div>
+{% endblock form_row %}
+
+{% block form_start %}
+<div class="form-horizontal">
+    {{ parent() }}
+    {% endblock form_start %}
+
+    {% block form_end %}
+    {{ parent() }}
+</div>
+{% endblock form_end %}
+
+{% block button_widget %}
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            {{ parent(null, {'attr': {'class': 'test'}}) }}
+        </div>
+    </div>
+{% endblock %}

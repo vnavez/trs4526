@@ -37,7 +37,7 @@
     <td class="text-right">
         {% if torrent.percent >= 100 %}
             <a href="{{ path('torrent_enable_transfert', { 'id': torrent.id }) }}" class="enable-transfert">
-                <span class="glyphicon glyphicon-save{% if torrent.status and torrent.status.downloaded %} active{% endif %}"></span>
+                <span class="glyphicon glyphicon-refresh{% if torrent.status and torrent.status.downloaded %} active{% endif %}"></span>
             </a>
         {% endif %}
         <a href="{{ path('torrent_delete', { 'id': torrent.id }) }}" class="delete-torrent">
