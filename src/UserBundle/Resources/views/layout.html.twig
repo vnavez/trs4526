@@ -1,5 +1,5 @@
-{% extends "::base.html.twig" %}
-{% block body %}
+{% extends "FrontBundle::layout.html.twig" %}
+{% block content %}
     {% if app.request.hasPreviousSession %}
         {% for type, messages in app.session.flashbag.all() %}
             {% for message in messages %}
@@ -10,7 +10,7 @@
         {% endfor %}
     {% endif %}
 
-    <div id="login-page" class="background-3">
+    <div id="login-page">
         {% block fos_user_content %}
         {% endblock fos_user_content %}
     </div>

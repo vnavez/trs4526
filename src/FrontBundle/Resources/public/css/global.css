@@ -53,7 +53,7 @@ table {
 }
 
 .fixed-table-container thead th .sortable {
-    padding-right: 0;
+    /*padding-right: 0;*/
 }
 
 .progress {
@@ -66,35 +66,6 @@ table {
 
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px white inset;
-}
-
-#login-page {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: left top;
-    height: 100%;
-    color: white;
-}
-
-.login-error {
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-#login-page.background-0 {
-    background-image: url('../images/background-0.jpg');
-}
-
-#login-page.background-1 {
-    background-image: url('../images/background-1.jpg');
-}
-
-#login-page.background-2 {
-    background-image: url('../images/background-2.jpg');
-}
-
-#login-page.background-3 {
-    background-image: url('../images/background-3.jpg');
 }
 
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {

@@ -1,37 +1,56 @@
 {% extends '::base.html.twig' %}
+{% trans_default_domain "FrontBundle" %}
 
 {% block body %}
+
     <header class="page-header clearfix">
         <div id="top-bar">
             <div class="container">
                 <nav class="pull-left">
                     <ul class="nav nav-tabs">
-                        <li role="presentation"{% if (app.request.get('_route') == 'torrent_index') %} class="active"{% endif %}><a href="{{ path('torrent_index') }}">{{ 'Transferts' }}</a></li>
-                        <li role="presentation"{% if (app.request.get('_route') == 'torrent_top100') %} class="active"{% endif %}><a href="{{ path('torrent_top100') }}">{{ 'Top 100' }}</a></li>
-                        <li role="presentation"{% if (app.request.get('_route') == 'torrent_today') %} class="active"{% endif %}><a href="{{ path('torrent_today') }}">{{ 'Today' }}</a></li>
-                        <li role="presentation"{% if (app.request.get('_route') == 'user_edit') %} class="active"{% endif %}><a href="{{ path('user_edit') }}">{{ 'Paramètres' }}</a></li>
+                        {% if app.user %}
+                            <li role="presentation"{% if (app.request.get('_route') == 'torrent_index') %} class="active"{% endif %}><a href="{{ path('torrent_index') }}">{{ 'Transferts' }}</a></li>
+                            <li role="presentation"{% if (app.request.get('_route') == 'torrent_top100') %} class="active"{% endif %}><a href="{{ path('torrent_top100') }}">{{ 'Top 100' }}</a></li>
+                            <li role="presentation"{% if (app.request.get('_route') == 'torrent_today') %} class="active"{% endif %}><a href="{{ path('torrent_today') }}">{{ 'Today' }}</a></li>
+                            <li role="presentation"{% if (app.request.get('_route') == 'user_edit') %} class="active"{% endif %}><a href="{{ path('user_edit') }}">{{ 'Paramètres' }}</a></li>
+                        {% endif %}
                     </ul>
                 </nav>
                 <div class="pull-right user-info">
-                    <a href="{{ path('fos_user_security_logout') }}">{{ 'Se déconnecter' }}</a>
-                    <img src="{{ app.user.avatar }}" title="{{ app.user.username }}" width="20" height="20" />
+                    {% if app.user %}
+                        <a href="{{ path('fos_user_security_logout') }}">{{ 'Se déconnecter' }}</a>
+                        <img src="{{ app.user.avatar }}" title="{{ app.user.username }}" width="20" height="20" />
+                    {% else %}
+                        <a href="{{ path('fos_user_security_login') }}">{{ 'Se connecter' }}</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
-        <div class="container">
-            <form id="search-form" class="form-inline pull-right" method="GET" action="{{ path('torrent_search') }}">
-                <div class="form-group">
-                    <label class="sr-only" for="search">{{ 'Recherche' }} : </label>
-                    <div class="input-group">
-                        <input type="search" class="form-control" name="search" id="search" placeholder="{{ 'Tapez votre recherche' }}">
+        {% if app.user %}
+            <div class="container">
+                <form id="search-form" class="form-inline pull-right" method="GET" action="{{ path('torrent_search') }}">
+                    <div class="form-group">
+                        <label class="sr-only" for="search">{{ 'Recherche' }} : </label>
+                        <div class="input-group">
+                            <input type="search" class="form-control" name="search" id="search" placeholder="{{ 'Tapez votre recherche' }}">
+                        </div>
                     </div>
-                </div>
-                <button type="submit" class="btn btn-primary">{{ 'Valider' }}</button>
-            </form>
-        </div>
+                    <button type="submit" class="btn btn-primary">{{ 'search.submit'|trans }}</button>
+                </form>
+            </div>
+        {% endif %}
     </header>
 
     <div class="container">
+        {% if app.request.hasPreviousSession %}
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="alert alert-success flash-{{ type }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
         <section id="heading-message"></section>
         <section class="page-content">
             {% block content %}{% endblock %}

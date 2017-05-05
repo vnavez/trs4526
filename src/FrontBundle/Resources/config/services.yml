@@ -39,3 +39,7 @@ services:
         public: false
         tags:
             - { name: twig.extension }
+    app.form.profile:
+            class: UserBundle\Form\ProfileFormType
+            tags:
+                - { name: form.type, alias: app_user_profile }

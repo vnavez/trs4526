@@ -20,10 +20,16 @@
 </div>
 {% endblock form_end %}
 
+{% block button_attributes %}
+    {% spaceless %}
+        class="btn btn-primary"
+    {% endspaceless %}
+{% endblock button_attributes %}
+
 {% block button_widget %}
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            {{ parent(null, {'attr': {'class': 'test'}}) }}
+            {{ parent() }}
         </div>
     </div>
 {% endblock %}
