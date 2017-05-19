@@ -5,7 +5,7 @@ $(document).ready(function() {
 });
 
 function socket_co() {
-    var webSocket = WS.connect("ws://trs.dev:8080");
+    var webSocket = WS.connect("ws://82.64.8.222:8080");
     var sessiong = '';
 
     webSocket.on("socket/connect", function(session){
