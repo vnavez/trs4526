@@ -1,19 +1,48 @@
 var lastrefresh = new Date().getTime();
 
 $(document).ready(function() {
-    //reloadTorrents();
+    socket_co();
 });
 
-function reloadTorrents() {
-    $.ajax({
-        url: $('#reload-url').attr('href')+"?time="+lastrefresh,
-        dataType: 'json',
-        type: 'GET',
-        success: function() {
-            lastrefresh = new Date().getTime();
-        }
+function socket_co() {
+    var webSocket = WS.connect("ws://trs.dev:8080");
+    var sessiong = '';
+
+    webSocket.on("socket/connect", function(session){
+        sessiong = session;
+        //session is an Autobahn JS WAMP session.
+        session.subscribe("torrent/update", function(uri, payload){
+            try {
+                var responses = JSON.parse(payload.msg);
+                for (var i in responses) {
+                    if ($('#torrent-'+i).length) {
+                        refreshLine(i, responses[i]);
+                    } else {
+                        addLine(i, responses[i]);
+                    }
+                }
+
+            } catch (e) {
+                console.log(payload);
+            }
+        });
     });
-    setTimeout(reloadTorrents, 30000);
+}
+
+function refreshLine(i, data) {
+    $('#torrent-'+i).animate({opacity: 0.2}, 500, function() {
+        $x = $(data);
+        $x.css('opacity', 0.5);
+        $(this).replaceWith($x);
+        $x.animate({opacity: 1}, 500);
+    });
+}
+
+function addLine(i, data) {
+    $x = $(data);
+    $x.css('opacity', 0.5);
+    $('.table-responsive tbody').append($x);
+    $x.animate({opacity: 1}, 500);
 }
 
 $(document).on('click', '.delete-torrent', function (e) {

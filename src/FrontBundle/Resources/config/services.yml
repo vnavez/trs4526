@@ -43,3 +43,8 @@ services:
             class: UserBundle\Form\ProfileFormType
             tags:
                 - { name: form.type, alias: app_user_profile }
+
+    torrent_update:
+        class: FrontBundle\RPC\SocketService
+        tags:
+            - { name: gos_web_socket.topic }

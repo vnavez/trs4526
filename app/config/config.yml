@@ -89,3 +89,15 @@ fos_user:
     profile:
         form:
             type: UserBundle\Form\Type\ProfileFormType
+
+gos_web_socket:
+    server:
+        port: 8080        #The port the socket server will listen on
+        host: 0.0.0.0   #The host ip to bind to
+        router:
+            resources:
+                - '@FrontBundle/Resources/config/pubsub/routing.yml'
+    pushers:
+        wamp:
+            host: 82.64.8.222
+            port: 8080

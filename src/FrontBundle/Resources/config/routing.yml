@@ -1,4 +1,3 @@
 front_torrent:
     resource: "@FrontBundle/Resources/config/routing/torrent.yml"
     prefix:   /torrent
-

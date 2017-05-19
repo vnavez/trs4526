@@ -5,6 +5,7 @@ namespace FrontBundle\Command;
 use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\EntityManager;
 use FrontBundle\Entity\Torrent;
+use Ratchet\Wamp\Topic;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,6 +23,7 @@ class CheckTorrentCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+
         /** @var EntityManager $em */
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
         $status = $this->getContainer()->get('status');
@@ -30,6 +32,7 @@ class CheckTorrentCommand extends ContainerAwareCommand
         $process->run();
 
         $output = $process->getOutput();
+
         $lines = explode("\n", $output);
         $torrents = array();
         $k = 0;
@@ -58,49 +61,55 @@ class CheckTorrentCommand extends ContainerAwareCommand
         }
 
         $ids = array();
+        $response = array();
         foreach ($torrents as $line) {
+            $hasUpdated = false;
             array_push($ids, $line['ID']);
             /** @var Torrent $torrent */
             $torrent = $em->getRepository('FrontBundle:Torrent')->findOneBy(array('idTransmission' => $line['ID']));
             if (!$torrent) {
-                $obj = new Torrent();
-                $obj->setIdTransmission(intval($line['ID']));
-                $obj->setName($line['Name']);
-                $obj->setStatus($status->getStatusByCode('new'));
-                $obj->setDateAdd(new \DateTime('now'));
-                $obj->setDateUpd(new \DateTime('now'));
-                $em->persist($obj);
+                $hasUpdated = true;
+                $torrent = new Torrent();
+                $torrent->setIdTransmission(intval($line['ID']));
+                $torrent->setName($line['Name']);
+                $torrent->setStatus($status->getStatusByCode('new'));
+                $torrent->setDateAdd(new \DateTime('now'));
+                $torrent->setDateUpd(new \DateTime('now'));
+                $em->persist($torrent);
             } else {
-                $hasUpdated = false;
-                if (in_array($torrent->getStatus(), array(
-                    $status->getStatusByCode('new'),
-                    $status->getStatusByCode('downloaded'),
-                    $status->getStatusByCode('pause'),
-                    $status->getStatusByCode('progressing'),
-                ))) {
-                    if ($torrent->getName() != $line['Name']) {
-                        $torrent->setName($line['Name']);
-                        $torrent->setStatus($status->getStatusByCode('new'));
-                        $hasUpdated = true;
-                    } elseif ($line['Status'] == 'Stopped') {
-                        $torrent->setStatus($status->getStatusByCode('pause'));
-                        $hasUpdated = true;
-                    } elseif ($line['Done'] == '100%') {
-                        $torrent->setStatus($status->getStatusByCode('downloaded'));
-                        $hasUpdated = true;
-                    } else {
-                        $torrent->setStatus($status->getStatusByCode('progressing'));
-                        $hasUpdated = true;
-                    }
+
+                if ($torrent->getName() != $line['Name']) {
+                    $torrent->setName($line['Name']);
+                    $torrent->setStatus($status->getStatusByCode('new'));
+                    $hasUpdated = true;
+                } elseif ($line['Status'] == 'Stopped' && $torrent->getStatus() != $status->getStatusByCode('pause')) {
+                    $torrent->setStatus($status->getStatusByCode('pause'));
+                    $hasUpdated = true;
+                } elseif ($line['Done'] == '100%' && $torrent->getStatus() != $status->getStatusByCode('downloaded')) {
+                    $torrent->setStatus($status->getStatusByCode('downloaded'));
+                    $hasUpdated = true;
+                } elseif ($line['Ratio'] != $torrent->getRatio()) {
+                    var_dump($line['Ratio']);
+                    var_dump($torrent->getRatio());
+                    $hasUpdated = true;
                 }
+
                 $torrent->setRatio($line['Ratio']);
                 $torrent->setPercent(floatval($line['Done']));
                 $torrent->setDateUpd(new \DateTime('now'));
                 $em->persist($torrent);
+
+            }
+
+            $em->flush();
+
+            if ($hasUpdated) {
+                $response[$torrent->getId()] = $this->getContainer()->get('templating')->render('FrontBundle:torrent:torrent_line.html.twig', array('torrent' => $torrent));
             }
         }
 
-        $em->flush();
+        $pusher = $this->getContainer()->get('gos_web_socket.wamp.pusher');
+        $pusher->push($response, 'torrent_update');
 
         $torrents = $em->getRepository('FrontBundle:Torrent')->getUnavailableTorrents($ids);
         foreach ($torrents as $torrent) {

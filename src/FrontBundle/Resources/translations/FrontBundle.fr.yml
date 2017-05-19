@@ -1,2 +1,5 @@
 search:
     submit: Rechercher
+upload:
+    submit: Uploader
+    file: Fichier

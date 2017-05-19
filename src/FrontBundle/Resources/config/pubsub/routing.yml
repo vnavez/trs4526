@@ -1,0 +1,4 @@
+torrent_update:
+    channel: torrent/update
+    handler:
+        callback: 'torrent.update' #related to the getName() of your topic
