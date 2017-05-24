@@ -3,7 +3,7 @@ $(document).ready(function() {
 });
 
 function socket_co() {
-    var webSocket = WS.connect("ws://home.navez.fr:80");
+    var webSocket = WS.connect("wss://home.navez.fr:80");
     var sessiong = '';
 
     webSocket.on("socket/connect", function(session){
