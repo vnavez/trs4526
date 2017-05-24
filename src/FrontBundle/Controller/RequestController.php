@@ -95,6 +95,7 @@ class RequestController extends Controller
         $torrent->setCategory(isset($details) ? $details->categoryname : 'Unknown');
         $torrent->setDateAdd(new \DateTime('now'));
         $torrent->setDateUpd(new \DateTime('now'));
+        $torrent->setFile($id.'.torrent');
         $em->persist($torrent);
         $em->flush();
 

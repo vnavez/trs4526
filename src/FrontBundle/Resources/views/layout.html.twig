@@ -1,6 +1,10 @@
 {% extends '::base.html.twig' %}
 {% trans_default_domain "FrontBundle" %}
 
+{% block title %}
+    Download Manager
+{% endblock %}
+
 {% block body %}
 
     <header class="page-header clearfix">
@@ -9,10 +13,10 @@
                 <nav class="pull-left">
                     <ul class="nav nav-tabs">
                         {% if app.user %}
+                            <li role="presentation"{% if (app.request.get('_route') == 'torrent_upload') %} class="active"{% endif %}><a href="{{ path('torrent_upload') }}" id="upload-torrent">{{ 'Upload' }}</a></li>
                             <li role="presentation"{% if (app.request.get('_route') == 'torrent_index') %} class="active"{% endif %}><a href="{{ path('torrent_index') }}">{{ 'Transferts' }}</a></li>
                             <li role="presentation"{% if (app.request.get('_route') == 'torrent_top100') %} class="active"{% endif %}><a href="{{ path('torrent_top100') }}">{{ 'Top 100' }}</a></li>
                             <li role="presentation"{% if (app.request.get('_route') == 'torrent_today') %} class="active"{% endif %}><a href="{{ path('torrent_today') }}">{{ 'Today' }}</a></li>
-                            <li role="presentation"{% if (app.request.get('_route') == 'user_edit') %} class="active"{% endif %}><a href="{{ path('user_edit') }}">{{ 'Paramètres' }}</a></li>
                         {% endif %}
                     </ul>
                 </nav>
@@ -20,6 +24,7 @@
                     {% if app.user %}
                         <a href="{{ path('fos_user_security_logout') }}">{{ 'Se déconnecter' }}</a>
                         <img src="{{ app.user.avatar }}" title="{{ app.user.username }}" width="20" height="20" />
+                        <a href="{{ path('user_edit') }}"><i class="glyphicon glyphicon-cog"></i></a>
                     {% else %}
                         <a href="{{ path('fos_user_security_login') }}">{{ 'Se connecter' }}</a>
                     {% endif %}
@@ -45,7 +50,7 @@
         {% if app.request.hasPreviousSession %}
             {% for type, messages in app.session.flashbag.all() %}
                 {% for message in messages %}
-                    <div class="alert alert-success flash-{{ type }}">
+                    <div class="alert {% if type == 'error' %}alert-danger{% else %}alert-success{% endif %} flash-{{ type }}">
                         {{ message }}
                     </div>
                 {% endfor %}
@@ -61,4 +66,21 @@
         <div class="container">
         </div>
     </footer>
+
+    <div id="upload-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{ 'Charger un torrent' }}</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Annuler' }}</button>
+                    <button type="button" class="btn btn-primary submit-upload-torrent">{{ 'Confirmer' }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

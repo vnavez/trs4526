@@ -1,16 +1,13 @@
-var lastrefresh = new Date().getTime();
-
 $(document).ready(function() {
     socket_co();
 });
 
 function socket_co() {
-    var webSocket = WS.connect("ws://82.64.8.222:8080");
+    var webSocket = WS.connect("ws://home.navez.fr:80");
     var sessiong = '';
 
     webSocket.on("socket/connect", function(session){
         sessiong = session;
-        //session is an Autobahn JS WAMP session.
         session.subscribe("torrent/update", function(uri, payload){
             try {
                 var responses = JSON.parse(payload.msg);
@@ -44,6 +41,23 @@ function addLine(i, data) {
     $('.table-responsive tbody').append($x);
     $x.animate({opacity: 1}, 500);
 }
+
+$(document).on('click', '#upload-torrent', function(e) {
+    $.ajax({
+        url: $(this).attr('href'),
+        dataType: 'json',
+        type: 'GET',
+        success: function(response) {
+            $('#upload-modal .modal-body').html(response.data);
+        }
+    });
+    $(document).off('click', '.submit-upload-torrent');
+    $(document).on('click', '.submit-upload-torrent', function () {
+        $('#upload-modal .modal-body form').submit();
+    });
+    $('#upload-modal').modal();
+    return false;
+});
 
 $(document).on('click', '.delete-torrent', function (e) {
     var el = $(this).parent().parent();

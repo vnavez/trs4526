@@ -5,6 +5,7 @@ namespace FrontBundle\Controller;
 use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\EntityManager;
 use FrontBundle\Entity\Torrent;
+use FrontBundle\Form\TorrentUpload;
 use FrontBundle\Service\Api;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -26,32 +27,20 @@ class TorrentController extends Controller
      * @Route("/", name="torrent_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+
+        $torrent = new Torrent();
+        $form = $this->createForm(TorrentUpload::class, $torrent);
+        $form->handleRequest($request);
 
         $torrents = $em->getRepository('FrontBundle:Torrent')->findAll();
 
         return $this->render('FrontBundle:torrent:index.html.twig', array(
             'torrents' => $torrents,
+            'form' => $form->createView()
         ));
-    }
-
-    /**
-     * @Route("/refresh", name="torrent_refresh")
-     * @Method("GET")
-     */
-    public function refreshAction()
-    {
-        $date = new \DateTime();
-        $date->sub(new \DateInterval('PT15S'));
-
-        $em = $this->getDoctrine()->getManager();
-        $torrents = $em->getRepository('FrontBundle:Torrent')->getLastUpdTorrents($date);
-
-        echo '<pre>';
-        Debug::dump($torrents);
-        die;
     }
 
     /**
@@ -83,10 +72,78 @@ class TorrentController extends Controller
     }
 
     /**
+     * @Route("/upload", name="torrent_upload")
+     */
+    public function uploadAction(Request $request)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $torrent = new Torrent();
+        $form = $this->createForm(TorrentUpload::class, $torrent);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $file = $torrent->getFile();
+
+                // Generate a unique name for the file before saving it
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                $file->move(
+                    $this->getParameter('torrent_directory'),
+                    $fileName
+                );
+
+                $t = new \FrontBundle\Service\Torrent($this->getParameter('torrent_directory') . '/' . $fileName);
+                $name = $t->name();
+
+                $process = new Process('transmission-remote ' . $this->getParameter('transmission_host') . ':' . $this->getParameter('transmission_port') . ' -n ' . $this->getParameter('transmission_login') . ':' . $this->getParameter('transmission_password') . ' -a ' . $this->getParameter('torrent_directory') . '/' . $fileName);
+                $process->run();
+
+                $process = new Process('transmission-remote ' . $this->getParameter('transmission_host') . ':' . $this->getParameter('transmission_port') . ' -n ' . $this->getParameter('transmission_login') . ':' . $this->getParameter('transmission_password') . ' -l');
+                $process->run();
+                $result = $process->getOutput();
+
+                if (!preg_match('#([0-9]+).*' . preg_quote($name) . '#', $result, $matches)) {
+                    $this->addFlash('error', 'Unable to get torrent in list');
+                } else {
+                    $status = $this->get('status');
+                    $torrent = new Torrent();
+                    $torrent->setIdTransmission($matches[1]);
+                    $torrent->setName($name);
+                    $torrent->setStatus($status->getStatusByCode('new'));
+                    $torrent->setUser($this->getUser());
+                    $torrent->setCategory(isset($details) ? $details->categoryname : 'Unknown');
+                    $torrent->setDateAdd(new \DateTime('now'));
+                    $torrent->setDateUpd(new \DateTime('now'));
+                    $torrent->setFile($fileName);
+                    $em->persist($torrent);
+                    $em->flush();
+                }
+            } else {
+                $this->addFlash('error', 'Please insert a correct torrent file');
+            }
+
+            return $this->redirect($this->generateUrl('torrent_index'));
+        }
+
+        if ($request->isXmlHttpRequest()) {
+            $data = $this->renderView('FrontBundle:torrent:upload.html.twig', array('form' => $form->createView()));
+            return new JsonResponse(array('success' => true, 'data' => $data), 200);
+        }
+
+        return $this->redirect($this->generateUrl('torrent_index'));
+
+    }
+
+    /**
      * @Route ("/top100", name="torrent_top100")
      * @Method("GET")
      */
-    public function top100Action(Request $request) {
+    public function top100Action(Request $request)
+    {
         $api = $this->get('api');
         $api->auth($this->getParameter('api_login'), $this->getParameter('api_password'));
         $torrents = $api->top100();
@@ -100,7 +157,8 @@ class TorrentController extends Controller
      * @Route ("/today", name="torrent_today")
      * @Method("GET")
      */
-    public function todayAction(Request $request) {
+    public function todayAction(Request $request)
+    {
         $api = $this->get('api');
         $api->auth($this->getParameter('api_login'), $this->getParameter('api_password'));
         $torrents = $api->today();
@@ -121,7 +179,7 @@ class TorrentController extends Controller
         if (!$torrent->getIdTransmission())
             die(json_encode(array('error' => 'Impossible de trouver l\'ID transmission associée à ce torren')));
 
-        $process = new Process('transmission-remote ' . $this->getParameter('transmission_host') . ':' . $this->getParameter('transmission_port') . ' -n ' . $this->getParameter('transmission_login') . ':' . $this->getParameter('transmission_password') . ' -t '.$torrent->getIdTransmission().' --remove-and-delete');
+        $process = new Process('transmission-remote ' . $this->getParameter('transmission_host') . ':' . $this->getParameter('transmission_port') . ' -n ' . $this->getParameter('transmission_login') . ':' . $this->getParameter('transmission_password') . ' -t ' . $torrent->getIdTransmission() . ' --remove-and-delete');
         $process->run();
 
         $em->remove($torrent);
@@ -138,7 +196,8 @@ class TorrentController extends Controller
      * @Route ("/popup-transfert/{id}", name="torrent_popup_transfert")
      * @Method("GET")
      */
-    public function PopupTransferAction(Request $request, Torrent $torrent) {
+    public function PopupTransferAction(Request $request, Torrent $torrent)
+    {
 
         /** @var EntityManager $em */
         $em = $this->get('doctrine')->getEntityManager();
@@ -158,7 +217,7 @@ class TorrentController extends Controller
         $em->persist($torrent);
         $em->flush();
 
-        if($request->isXmlHttpRequest()) {
+        if ($request->isXmlHttpRequest()) {
             $data = $this->renderView('FrontBundle:torrent:torrent_line.html.twig', array('torrent' => $torrent));
             return new JsonResponse(array('success' => true, 'data' => $data), 200);
         }
@@ -167,7 +226,8 @@ class TorrentController extends Controller
     }
 
 
-    public static function torrentSort($a, $b) {
+    public static function torrentSort($a, $b)
+    {
         return ($a->seeders > $b->seeders) ? -1 : 1;
     }
 }

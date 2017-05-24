@@ -33,6 +33,11 @@ class Torrent
     private $category;
 
     /**
+     * @var string
+     */
+    private $file;
+
+    /**
      * Get id
      *
      * @return int
@@ -368,5 +373,29 @@ class Torrent
     public function getTransfert()
     {
         return $this->transfert;
+    }
+
+    /**
+     * Set file
+     *
+     * @param string $file
+     *
+     * @return Torrent
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * Get file
+     *
+     * @return string
+     */
+    public function getFile()
+    {
+        return $this->file;
     }
 }

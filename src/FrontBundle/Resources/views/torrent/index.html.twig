@@ -1,10 +1,12 @@
 {% extends 'FrontBundle::layout.html.twig' %}
+{% form_theme form 'FrontBundle::form/fields.html.twig' %}
 
 {% block page_title %}
     {{ 'Torrents List' }}
 {% endblock %}
 
 {% block content %}
+
     <table class="table table-responsive table-condensed table-hover" data-toggle="table">
         <thead>
         <tr>
@@ -40,8 +42,5 @@
             </div>
         </div>
     </div>
-
-    <a id="reload-url" href="{{ path('torrent_refresh') }}"></a>
-
 
 {% endblock %}

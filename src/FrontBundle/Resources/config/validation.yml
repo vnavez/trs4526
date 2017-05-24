@@ -1,0 +1,8 @@
+FrontBundle\Entity\Torrent:
+    properties:
+        file:
+            - File:
+                maxSize: 1024k
+                mimeTypes: [application/x-bittorrent]
+                mimeTypesMessage: "Please upload a valid torrent"
+            - NotBlank: ~

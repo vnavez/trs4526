@@ -1,0 +1,5 @@
+{% form_theme form 'FrontBundle::form/fields.html.twig' %}
+
+{{ form_start(form, { 'action': path('torrent_upload')}) }}
+{{ form_row(form.file) }}
+{{ form_end(form) }}

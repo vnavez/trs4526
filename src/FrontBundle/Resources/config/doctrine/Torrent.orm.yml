@@ -33,6 +33,8 @@ FrontBundle\Entity\Torrent:
             type: float
             options:
                 default: 0
+        file:
+            type: string
         date_add:
             type: datetime
         date_upd:
