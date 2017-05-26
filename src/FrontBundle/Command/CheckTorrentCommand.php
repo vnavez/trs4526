@@ -90,16 +90,17 @@ class CheckTorrentCommand extends ContainerAwareCommand
                     $torrent->setStatus($status->getStatusByCode('downloaded'));
                     $hasUpdated = true;
                 } elseif ($line['Ratio'] != $torrent->getRatio()) {
-                    var_dump($line['Ratio']);
-                    var_dump($torrent->getRatio());
+                    $hasUpdated = true;
+                } elseif ($line['Done'] != $torrent->getPercent().'%') {
                     $hasUpdated = true;
                 }
 
-                $torrent->setRatio($line['Ratio']);
-                $torrent->setPercent(floatval($line['Done']));
-                $torrent->setDateUpd(new \DateTime('now'));
-                $em->persist($torrent);
-
+                if ($hasUpdated) {
+                    $torrent->setRatio($line['Ratio']);
+                    $torrent->setPercent(floatval($line['Done']));
+                    $torrent->setDateUpd(new \DateTime('now'));
+                    $em->persist($torrent);
+                }
             }
 
             $em->flush();
