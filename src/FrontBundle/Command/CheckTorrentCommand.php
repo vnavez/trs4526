@@ -61,14 +61,12 @@ class CheckTorrentCommand extends ContainerAwareCommand
         }
 
         $ids = array();
-        $response = array();
         foreach ($torrents as $line) {
             $hasUpdated = false;
             array_push($ids, $line['ID']);
             /** @var Torrent $torrent */
             $torrent = $em->getRepository('FrontBundle:Torrent')->findOneBy(array('idTransmission' => $line['ID']));
             if (!$torrent) {
-                $hasUpdated = true;
                 $torrent = new Torrent();
                 $torrent->setIdTransmission(intval($line['ID']));
                 $torrent->setName($line['Name']);
@@ -86,7 +84,7 @@ class CheckTorrentCommand extends ContainerAwareCommand
                 } elseif ($line['Status'] == 'Stopped' && $torrent->getStatus() != $status->getStatusByCode('pause')) {
                     $torrent->setStatus($status->getStatusByCode('pause'));
                     $hasUpdated = true;
-                } elseif ($line['Done'] == '100%' && $torrent->getStatus() != $status->getStatusByCode('downloaded')) {
+                } elseif ($line['Done'] == '100%' && $torrent->getStatus() != $status->getStatusByCode('downloaded') && $torrent->getStatus() != $status->getStatusByCode('pause')) {
                     $torrent->setStatus($status->getStatusByCode('downloaded'));
                     $hasUpdated = true;
                 } elseif ($line['Ratio'] != $torrent->getRatio()) {
