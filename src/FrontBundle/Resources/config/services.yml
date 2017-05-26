@@ -48,7 +48,7 @@ services:
         tags:
             - { name: gos_web_socket.topic }
     torrent.listener:
-        class: FrontBundle\EventListener\TorrentListener
+        class: FrontBundle\EventListener\TorrentSubscriber
         arguments: ["@service_container"]
         tags:
-            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_subscriber, connection: default }

@@ -2,11 +2,12 @@
 
 namespace FrontBundle\EventListener;
 
+use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use FrontBundle\Entity\Torrent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class TorrentListener {
+class TorrentSubscriber implements EventSubscriber {
 
     /** @var ContainerInterface $container */
     protected $container;
@@ -15,7 +16,28 @@ class TorrentListener {
         $this->container = $container;
     }
 
+    /**
+     * @return array
+     */
+    public function getSubscribedEvents()
+    {
+        return array(
+            'postPersist',
+            'postUpdate',
+        );
+    }
+
     public function postPersist(LifecycleEventArgs $args)
+    {
+        $this->sendMessage($args);
+    }
+
+    public function postUpdate(LifecycleEventArgs $args)
+    {
+        $this->sendMessage($args);
+    }
+
+    public function sendMessage(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
 
