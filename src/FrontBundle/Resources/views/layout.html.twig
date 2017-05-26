@@ -13,26 +13,28 @@
                 <nav class="pull-left">
                     <ul class="nav nav-tabs">
                         {% if app.user %}
-                            <li role="presentation"{% if (app.request.get('_route') == 'torrent_upload') %} class="active"{% endif %}><a href="{{ path('torrent_upload') }}" id="upload-torrent">{{ 'Upload' }}</a></li>
-                            <li role="presentation"{% if (app.request.get('_route') == 'torrent_index') %} class="active"{% endif %}><a href="{{ path('torrent_index') }}">{{ 'Transferts' }}</a></li>
-                            <li role="presentation"{% if (app.request.get('_route') == 'torrent_top100') %} class="active"{% endif %}><a href="{{ path('torrent_top100') }}">{{ 'Top 100' }}</a></li>
-                            <li role="presentation"{% if (app.request.get('_route') == 'torrent_today') %} class="active"{% endif %}><a href="{{ path('torrent_today') }}">{{ 'Today' }}</a></li>
+                            <li role="presentation"{% if (app.request.get('_route') == 'torrent_upload') %} class="active"{% endif %}><a href="{{ path('torrent_upload') }}" id="upload-torrent" title="{{ 'Upload' }}"><i class="glyphicon glyphicon-cloud-upload"></i></a></li>
+                            <li role="presentation"{% if (app.request.get('_route') == 'torrent_index') %} class="active"{% endif %}><a href="{{ path('torrent_index') }}" title="{{ 'Transferts' }}"><i class="glyphicon glyphicon-transfer"></i></a></li>
+
+                            {#<li role="presentation"{% if (app.request.get('_route') == 'torrent_top100') %} class="active"{% endif %}><a href="{{ path('torrent_top100') }}">{{ 'Top 100' }}</a></li>
+                            <li role="presentation"{% if (app.request.get('_route') == 'torrent_today') %} class="active"{% endif %}><a href="{{ path('torrent_today') }}">{{ 'Today' }}</a></li>#}
                         {% endif %}
                     </ul>
                 </nav>
-                <div class="pull-right user-info">
-                    {% if app.user %}
-                        <a href="{{ path('fos_user_security_logout') }}">{{ 'Se déconnecter' }}</a>
-                        <img src="{{ app.user.avatar }}" title="{{ app.user.username }}" width="20" height="20" />
-                        <a href="{{ path('user_edit') }}"><i class="glyphicon glyphicon-cog"></i></a>
-                    {% else %}
-                        <a href="{{ path('fos_user_security_login') }}">{{ 'Se connecter' }}</a>
-                    {% endif %}
-                </div>
+                <nav class="pull-right">
+                    <ul class="nav nav-tabs">
+                        {% if app.user %}
+                            <li role="presentation"{% if (app.request.get('_route') == 'user_edit') %} class="active"{% endif %}><a href="{{ path('user_edit') }}" title="{{ 'Paramètres' }}"><i class="glyphicon glyphicon-cog"></i></a></li>
+                            <li role="presentation"><a href="{{ path('fos_user_security_logout') }}"><i class="glyphicon glyphicon-log-out"></i></a></li>
+                        {% else %}
+                            <li role="presentation"><a href="{{ path('fos_user_security_login') }}">{{ 'Se connecter' }}</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
             </div>
         </div>
         {% if app.user %}
-            <div class="container">
+            <div class="container hidden-xs">
                 <form id="search-form" class="form-inline pull-right" method="GET" action="{{ path('torrent_search') }}">
                     <div class="form-group">
                         <label class="sr-only" for="search">{{ 'Recherche' }} : </label>
@@ -46,7 +48,7 @@
         {% endif %}
     </header>
 
-    <div class="container">
+    <div id="main-container" class="container">
         {% if app.request.hasPreviousSession %}
             {% for type, messages in app.session.flashbag.all() %}
                 {% for message in messages %}

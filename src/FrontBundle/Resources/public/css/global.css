@@ -3,19 +3,49 @@ html, body {
     height: 100%;
 }
 
+body {
+    background: #b4a796; /* Old browsers */
+    background: -moz-linear-gradient(top, #b4a796 0%, #b4a796 37%, #b4a796 38%, #b4a796 38%, #ffffff 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #b4a796 0%,#b4a796 37%,#b4a796 38%,#b4a796 38%,#ffffff 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #b4a796 0%,#b4a796 37%,#b4a796 38%,#b4a796 38%,#ffffff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b4a796', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+}
+
+a {
+    color: #461f24;
+}
+
+header {
+    background-image: url('../images/background.jpg');
+    background-position: center 0;
+    background-color: #b4a796;
+    background-repeat: no-repeat;
+}
+
 header.page-header {
     padding-bottom: 0;
     margin-top: 0;
+    height: 250px;
+    border-bottom: 0;
 }
 
 header #top-bar {
     margin-bottom: 10px;
     height: 40px;
-    background: #333;
+    background: #461f24;
 }
 
 nav .nav-tabs {
     border-bottom: 0;
+}
+
+#main-container {
+    margin-top: -30px;
+    background: #fff;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    min-height: 450px;
+    box-shadow: 3px 3px 3px #b4a796, -3px 0px 3px #b4a796;
 }
 
 footer {
@@ -70,6 +100,9 @@ input:-webkit-autofill {
 
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
     border-radius: 0;
+    background-color: #b4a796;
+    border: 1px solid #b4a796;
+    color: #461f24;
 }
 
 .nav-tabs > li > a {
@@ -78,15 +111,15 @@ input:-webkit-autofill {
 }
 
 .nav>li>a:focus {
-    background: #333;
-    border-color: #333 #333 #333;
+    background: #461f24;
+    border-color: #461f24;
 }
 
 .nav>li>a:hover {
-    border-color: white;
-    background: white;
+    border-color: #b4a796;
+    background: #b4a796;
     border-radius: 0;
-    color: #555;
+    color: #461f24;
 }
 
 #search-form {
@@ -104,4 +137,53 @@ input:-webkit-autofill {
 
 .user-info img {
     margin-left: 10px;
+}
+
+.modal-content {
+    background: #f4f0eb;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1400px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    header.page-header {
+        height: 180px;
+    }
+
+    #main-container {
+        border-radius: 0;
+        min-height: 0;
+    }
+
+    .table-responsive {
+        border: 0;
+    }
+
+    .table-responsive thead {
+        display: none;
+    }
+
+    .table-responsive tr {
+        display: block;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #461f24;
+        padding-bottom: 10px;
+    }
+
+    .table-responsive > tbody > tr > td {
+        border: 0;
+    }
+
+    .table-responsive .inline-block {
+        display: inline-block;
+    }
+
+    .table-responsive .pull-right-mobile {
+        float: right;
+    }
 }
