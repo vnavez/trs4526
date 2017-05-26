@@ -43,8 +43,12 @@ services:
             class: UserBundle\Form\ProfileFormType
             tags:
                 - { name: form.type, alias: app_user_profile }
-
     torrent_update:
         class: FrontBundle\RPC\SocketService
         tags:
             - { name: gos_web_socket.topic }
+    torrent.listener:
+        class: FrontBundle\EventListener\TorrentListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }

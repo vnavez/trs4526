@@ -75,6 +75,7 @@ class CheckTorrentCommand extends ContainerAwareCommand
                 $torrent->setStatus($status->getStatusByCode('new'));
                 $torrent->setDateAdd(new \DateTime('now'));
                 $torrent->setDateUpd(new \DateTime('now'));
+                $torrent->setFile('');
                 $em->persist($torrent);
             } else {
 
@@ -102,14 +103,7 @@ class CheckTorrentCommand extends ContainerAwareCommand
             }
 
             $em->flush();
-
-            if ($hasUpdated) {
-                $response[$torrent->getId()] = $this->getContainer()->get('templating')->render('FrontBundle:torrent:torrent_line.html.twig', array('torrent' => $torrent));
-            }
         }
-
-        $pusher = $this->getContainer()->get('gos_web_socket.wamp.pusher');
-        $pusher->push($response, 'torrent_update');
 
         $torrents = $em->getRepository('FrontBundle:Torrent')->getUnavailableTorrents($ids);
         foreach ($torrents as $torrent) {
