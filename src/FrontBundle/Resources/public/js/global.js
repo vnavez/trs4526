@@ -8,21 +8,30 @@ function socket_co() {
 
     webSocket.on("socket/connect", function(session){
         sessiong = session;
+        console.log("toto");
         session.subscribe("torrent/update", function(uri, payload){
             try {
-                var responses = JSON.parse(payload.msg);
-                for (var i in responses) {
-                    if ($('#torrent-'+i).length) {
-                        refreshLine(i, responses[i]);
-                    } else {
-                        addLine(i, responses[i]);
-                    }
+                var response = JSON.parse(payload.msg);
+                var id = response.id;
+                if (response.action === "delete") {
+                    deleteLine(id);
+                }
+                else if ($('#torrent-'+id).length) {
+                    refreshLine(id, response.html);
+                } else {
+                    addLine(id, response.html);
                 }
 
             } catch (e) {
                 console.log(payload);
             }
         });
+    });
+}
+
+function deleteLine(i) {
+    $('#torrent-'+i).animate({opacity: 0}, 500, function() {
+        $(this).remove();
     });
 }
 

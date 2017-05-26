@@ -24,20 +24,26 @@ class TorrentSubscriber implements EventSubscriber {
         return array(
             'postPersist',
             'postUpdate',
+            'preRemove'
         );
     }
 
     public function postPersist(LifecycleEventArgs $args)
     {
-        $this->sendMessage($args);
+        $this->sendMessage($args, 'create');
     }
 
     public function postUpdate(LifecycleEventArgs $args)
     {
-        $this->sendMessage($args);
+        $this->sendMessage($args, 'update');
     }
 
-    public function sendMessage(LifecycleEventArgs $args)
+    public function preRemove(LifecycleEventArgs $args)
+    {
+        $this->sendMessage($args, 'delete');
+    }
+
+    public function sendMessage(LifecycleEventArgs $args, $action)
     {
         $entity = $args->getEntity();
 
@@ -45,7 +51,11 @@ class TorrentSubscriber implements EventSubscriber {
             return;
         }
 
-        $response[$entity->getId()] = $this->container->get('templating')->render('FrontBundle:torrent:torrent_line.html.twig', array('torrent' => $entity));
+        $response = array(
+            'id' => $entity->getId(),
+            'action' => $action,
+            'html' => $action != 'delete' ? $this->container->get('templating')->render('FrontBundle:torrent:torrent_line.html.twig', array('torrent' => $entity)) : ''
+        );
 
         $pusher = $this->container->get('gos_web_socket.wamp.pusher');
         $pusher->push($response, 'torrent_update');
