@@ -100,5 +100,5 @@ gos_web_socket:
                 - '@FrontBundle/Resources/config/pubsub/routing.yml'
     pushers:
         wamp:
-            host: 82.64.8.222
+            host: 127.0.0.1
             port: 8080

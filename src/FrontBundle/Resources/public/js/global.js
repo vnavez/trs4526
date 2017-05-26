@@ -8,7 +8,6 @@ function socket_co() {
 
     webSocket.on("socket/connect", function(session){
         sessiong = session;
-        console.log("toto");
         session.subscribe("torrent/update", function(uri, payload){
             try {
                 var response = JSON.parse(payload.msg);
