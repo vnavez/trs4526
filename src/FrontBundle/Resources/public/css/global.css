@@ -1,3 +1,7 @@
+html {
+    overflow: hidden;
+}
+
 html, body {
     min-height: 100%;
     height: 100%;
@@ -9,6 +13,8 @@ body {
     background: -webkit-linear-gradient(top, #b4a796 0%,#b4a796 37%,#b4a796 38%,#b4a796 38%,#ffffff 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, #b4a796 0%,#b4a796 37%,#b4a796 38%,#b4a796 38%,#ffffff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b4a796', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+    overflow: auto;
+    height: 100%;
 }
 
 a {
