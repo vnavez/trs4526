@@ -35,9 +35,13 @@
     </td>
     <td class="inline-block pull-right-mobile"><span class="label {{ torrent.category|type_color }}">{{ torrent.category }}</span></td>
     <td class="text-right inline-block pull-right-mobile">
-        {% if torrent.linkgenerated %}
-            <a href="{{ torrent.linkgenerated }}" target="_blank">
+        {% if torrent.percent >= 100 and torrent.linkgenerated %}
+            <a href="{{ torrent.linkgenerated }}" title="{{ "Télécharger le fichier" }}" target="_blank">
                 <span class="glyphicon glyphicon-save"></span>
+            </a>
+        {% elseif torrent.percent >= 100 and torrent.pieces > 1 and not torrent.linkgenerated %}
+            <a href="#" title="{{ "Compresser les fichiers" }}">
+                <span class="glyphicon glyphicon-file"></span>
             </a>
         {% endif %}
         {% if torrent.percent >= 100 %}
