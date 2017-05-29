@@ -35,6 +35,11 @@
     </td>
     <td class="inline-block pull-right-mobile"><span class="label {{ torrent.category|type_color }}">{{ torrent.category }}</span></td>
     <td class="text-right inline-block pull-right-mobile">
+        {% if torrent.linkgenerated %}
+            <a href="{{ torrent.linkgenerated }}" target="_blank">
+                <span class="glyphicon glyphicon-save"></span>
+            </a>
+        {% endif %}
         {% if torrent.percent >= 100 %}
             <a href="{{ path('torrent_enable_transfert', { 'id': torrent.id }) }}" class="enable-transfert">
                 <span class="glyphicon glyphicon-refresh{% if torrent.status and torrent.status.downloaded %} active{% endif %}"></span>

@@ -101,6 +101,34 @@ class CheckTorrentCommand extends ContainerAwareCommand
                 }
             }
 
+            if (!$torrent->getPieces()) {
+                $process = new Process('transmission-remote ' . $this->getContainer()->getParameter('transmission_host') . ':' . $this->getContainer()->getParameter('transmission_port') . ' -n ' . $this->getContainer()->getParameter('transmission_login') . ':' . $this->getContainer()->getParameter('transmission_password') . ' -t '.$torrent->getIdTransmission().' -if');
+                $process->run();
+
+                $output = $process->getOutput();
+                $lines = explode("\n", $output);
+                $count = 0;
+                $name = '';
+                foreach ($lines as $data) {
+                    if (preg_match('/^[0-9]+\:/', trim($data))) {
+                        if (!$count) {
+                            $t = preg_split('/[\ ]{2,}/', $data);
+                            $name = end($t);
+                        }
+                        $count++;
+                    }
+                }
+
+                if ($count == 1) {
+                    $now = new \DateTime();
+                    $torrent->setLinkGenerated('https://' . $this->getContainer()->getParameter('transmission_host') . '/~vnavez/files/' . $name);
+                    $torrent->setDateGenerated($now);
+                }
+
+                $torrent->setPieces($count);
+                $em->persist($torrent);
+            }
+
             $em->flush();
         }
 

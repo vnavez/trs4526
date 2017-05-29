@@ -398,4 +398,91 @@ class Torrent
     {
         return $this->file;
     }
+    /**
+     * @var integer
+     */
+    private $pieces = 1;
+
+
+    /**
+     * Set pieces
+     *
+     * @param integer $pieces
+     *
+     * @return Torrent
+     */
+    public function setPieces($pieces)
+    {
+        $this->pieces = $pieces;
+
+        return $this;
+    }
+
+    /**
+     * Get pieces
+     *
+     * @return integer
+     */
+    public function getPieces()
+    {
+        return $this->pieces;
+    }
+    /**
+     * @var \DateTime
+     */
+    private $date_generated;
+
+
+    /**
+     * Set dateGenerated
+     *
+     * @param \DateTime $dateGenerated
+     *
+     * @return Torrent
+     */
+    public function setDateGenerated($dateGenerated)
+    {
+        $this->date_generated = $dateGenerated;
+
+        return $this;
+    }
+
+    /**
+     * Get dateGenerated
+     *
+     * @return \DateTime
+     */
+    public function getDateGenerated()
+    {
+        return $this->date_generated;
+    }
+    /**
+     * @var string
+     */
+    private $link_generated;
+
+
+    /**
+     * Set linkGenerated
+     *
+     * @param string $linkGenerated
+     *
+     * @return Torrent
+     */
+    public function setLinkGenerated($linkGenerated)
+    {
+        $this->link_generated = $linkGenerated;
+
+        return $this;
+    }
+
+    /**
+     * Get linkGenerated
+     *
+     * @return string
+     */
+    public function getLinkGenerated()
+    {
+        return $this->link_generated;
+    }
 }

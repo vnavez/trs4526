@@ -33,6 +33,16 @@ FrontBundle\Entity\Torrent:
             type: float
             options:
                 default: 0
+        pieces:
+            type: integer
+            options:
+                default: 0
+        link_generated:
+            type: string
+            nullable: true
+        date_generated:
+            type: datetime
+            nullable: true
         file:
             type: string
         date_add:
