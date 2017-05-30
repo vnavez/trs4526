@@ -4,11 +4,11 @@
         <img src="{% if torrent.user and torrent.user.email %}{{ torrent.user.avatar }}{% else %}{{ asset_url }}{% endif %}" title="{% if torrent.user %}{{ torrent.user.username }}{% else %}{{ 'Inconnu' }}{% endif %}" width="20" height="20" />
         {% endimage %}
     </td>
-    <td>{{ torrent.name| truncate(45) }}</td>
+    <td>{{ torrent.name }}</td>
     <td class="inline-block">
         {% if torrent.status %}
         <div class="progress" style="width: 100px">
-            <div class="progress-bar progress-bar-striped {{ torrent.status.color }}" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: {{ torrent.percent }}%">
+            <div class="progress-bar {{ torrent.status.color }}" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: {{ torrent.percent }}%">
                 {{ torrent.status.name }}
             </div>
         </div>
@@ -17,7 +17,7 @@
     <td class="inline-block">
         {% if torrent.transfert %}
             <div class="progress" style="width: 100px">
-                <div class="progress-bar progress-bar-striped {{ torrent.transfert.color }}" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: {{ torrent.percent }}%">
+                <div class="progress-bar {{ torrent.transfert.color }}" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: {{ torrent.percent }}%">
                     {{ torrent.transfert.name }}
                 </div>
             </div>

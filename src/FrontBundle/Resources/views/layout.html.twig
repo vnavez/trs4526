@@ -15,7 +15,6 @@
                         {% if app.user %}
                             <li role="presentation"{% if (app.request.get('_route') == 'torrent_upload') %} class="active"{% endif %}><a href="{{ path('torrent_upload') }}" id="upload-torrent" title="{{ 'Upload' }}"><i class="glyphicon glyphicon-cloud-upload"></i></a></li>
                             <li role="presentation"{% if (app.request.get('_route') == 'torrent_index') %} class="active"{% endif %}><a href="{{ path('torrent_index') }}" title="{{ 'Transferts' }}"><i class="glyphicon glyphicon-transfer"></i></a></li>
-
                             {#<li role="presentation"{% if (app.request.get('_route') == 'torrent_top100') %} class="active"{% endif %}><a href="{{ path('torrent_top100') }}">{{ 'Top 100' }}</a></li>
                             <li role="presentation"{% if (app.request.get('_route') == 'torrent_today') %} class="active"{% endif %}><a href="{{ path('torrent_today') }}">{{ 'Today' }}</a></li>#}
                         {% endif %}
@@ -42,7 +41,7 @@
                             <input type="search" class="form-control" name="search" id="search" placeholder="{{ 'Tapez votre recherche' }}">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">{{ 'search.submit'|trans }}</button>
+                    <button type="submit" class="btn btn-danger">{{ 'search.submit'|trans }}</button>
                 </form>
             </div>
         {% endif %}
@@ -59,7 +58,7 @@
             {% endfor %}
         {% endif %}
         <section id="heading-message"></section>
-        <section class="page-content">
+        <section class="page-content row">
             {% block content %}{% endblock %}
         </section>
     </div>

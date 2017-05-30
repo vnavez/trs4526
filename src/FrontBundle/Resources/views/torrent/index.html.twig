@@ -7,37 +7,41 @@
 
 {% block content %}
 
-    <table class="table table-responsive table-condensed table-hover">
-        <thead>
-        <tr>
-            <th data-field="user"></th>
-            <th data-field="name" data-sortable="true">Name</th>
-            <th data-field="status" data-sortable="true">Statut</th>
-            <th data-field="transfert" data-sortable="true">Transfert</th>
-            <th data-field="ratio" data-sortable="true">Ratio</th>
-            <th data-field="type" data-sortable="true">Type</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for torrent in torrents %}
-            {{ include("FrontBundle:torrent:torrent_line.html.twig", {'torrent': torrent}) }}
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="section col-md-12">
+        <h1><i class="glyphicon glyphicon-transfer"></i> {{ 'Liste des téléchargements' }}</h1>
 
-    <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">{{ 'Suppression du torrent' }}</h4>
-                </div>
-                <div class="modal-body">
-                    {{ 'Etes-vous sûr de vouloir supprimer ce torrent? Tout fichier sera supprimé, ainsi que sa présence sur transmission.' }}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Annuler' }}</button>
-                    <button type="button" class="btn btn-primary submit-delete-torrent">{{ 'Confirmer' }}</button>
+        <table class="table table-responsive table-condensed table-hover">
+            <thead>
+            <tr>
+                <th data-field="user"></th>
+                <th data-field="name" data-sortable="true">Name</th>
+                <th data-field="status" data-sortable="true">Statut</th>
+                <th data-field="transfert" data-sortable="true">Transfert</th>
+                <th data-field="ratio" data-sortable="true">Ratio</th>
+                <th data-field="type" data-sortable="true">Type</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for torrent in torrents %}
+                {{ include("FrontBundle:torrent:torrent_line.html.twig", {'torrent': torrent}) }}
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">{{ 'Suppression du torrent' }}</h4>
+                    </div>
+                    <div class="modal-body">
+                        {{ 'Etes-vous sûr de vouloir supprimer ce torrent? Tout fichier sera supprimé, ainsi que sa présence sur transmission.' }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Annuler' }}</button>
+                        <button type="button" class="btn btn-primary submit-delete-torrent">{{ 'Confirmer' }}</button>
+                    </div>
                 </div>
             </div>
         </div>
