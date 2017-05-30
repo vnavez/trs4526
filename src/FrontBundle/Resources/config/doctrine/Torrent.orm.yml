@@ -43,6 +43,10 @@ FrontBundle\Entity\Torrent:
         date_generated:
             type: datetime
             nullable: true
+        compress_state:
+            type: integer
+            options:
+                default: 0
         file:
             type: string
         date_add:

@@ -40,8 +40,12 @@
                 <span class="glyphicon glyphicon-save"></span>
             </a>
         {% elseif torrent.percent >= 100 and torrent.pieces > 1 and not torrent.linkgenerated %}
-            <a href="#" title="{{ "Compresser les fichiers" }}">
-                <span class="glyphicon glyphicon-file"></span>
+            <a {% if torrent.compressstate == 0 %}href="{{ path('torrent_compress_files', { 'id': torrent.id }) }}" {% endif %}title="{{ "Compresser les fichiers" }}" class="compress-files">
+                {% if torrent.compressstate >= 1 %}
+                    <span class="glyphicon glyphicon-repeat glyphicon-refresh-animate"></span>
+                {% else %}
+                    <span class="glyphicon glyphicon-file"></span>
+                {% endif %}
             </a>
         {% endif %}
         {% if torrent.percent >= 100 %}

@@ -118,3 +118,12 @@ $(document).on('click', '.enable-transfert', function(e) {
     });
     return false;
 });
+
+$(document).on('click', '.compress-files', function(e) {
+    if ($(this).attr('href')) {
+        $.ajax({
+            url: $(this).attr('href')
+        });
+    }
+    return false;
+});

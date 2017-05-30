@@ -225,6 +225,28 @@ class TorrentController extends Controller
         return $this->redirectToRoute('torrent_index');
     }
 
+    /**
+     * @Route("/torrent_compress_files/{id}", name="torrent_compress_files")
+     * @Method("GET")
+     * @param Request $request
+     * @param Torrent $torrent
+     * @return string
+     */
+    public function CompressFilesAction(Request $request, Torrent $torrent) {
+        /** @var EntityManager $em */
+        $em = $this->get('doctrine')->getEntityManager();
+
+        $torrent->setCompressState(1);
+        $em->persist($torrent);
+        $em->flush();
+
+        if ($request->isXmlHttpRequest()) {
+            die;
+        }
+
+        return $this->redirectToRoute('torrent_index');
+    }
+
 
     public static function torrentSort($a, $b)
     {

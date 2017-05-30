@@ -485,4 +485,33 @@ class Torrent
     {
         return $this->link_generated;
     }
+    /**
+     * @var integer
+     */
+    private $compress_state = 0;
+
+
+    /**
+     * Set compressState
+     *
+     * @param integer $compressState
+     *
+     * @return Torrent
+     */
+    public function setCompressState($compressState)
+    {
+        $this->compress_state = $compressState;
+
+        return $this;
+    }
+
+    /**
+     * Get compressState
+     *
+     * @return integer
+     */
+    public function getCompressState()
+    {
+        return $this->compress_state;
+    }
 }
