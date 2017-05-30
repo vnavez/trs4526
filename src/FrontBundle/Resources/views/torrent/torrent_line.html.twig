@@ -42,7 +42,7 @@
         {% elseif torrent.percent >= 100 and torrent.pieces > 1 and not torrent.linkgenerated %}
             <a {% if torrent.compressstate == 0 %}href="{{ path('torrent_compress_files', { 'id': torrent.id }) }}" {% endif %}title="{{ "Compresser les fichiers" }}" class="compress-files">
                 {% if torrent.compressstate >= 1 %}
-                    <span class="glyphicon glyphicon-repeat glyphicon-refresh-animate"></span>
+                    <span class="fa fa-spinner glyphicon-refresh-animate"></span>
                 {% else %}
                     <span class="glyphicon glyphicon-file"></span>
                 {% endif %}

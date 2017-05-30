@@ -77,6 +77,10 @@ table {
     font-size: 13px;
 }
 
+.table {
+    margin-bottom: 0;
+}
+
 .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
     vertical-align: middle;
 }
@@ -210,8 +214,8 @@ input:-webkit-autofill {
 }
 
 .glyphicon-refresh-animate {
-    -animation: spin 1s infinite linear;
-    -webkit-animation: spin2 1s infinite linear;
+    -animation: spin 2s infinite linear;
+    -webkit-animation: spin2 2s infinite linear;
 }
 
 @-webkit-keyframes spin2 {
