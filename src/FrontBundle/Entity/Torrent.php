@@ -514,4 +514,34 @@ class Torrent
     {
         return $this->compress_state;
     }
+    
+    /**
+     * @var \FrontBundle\Entity\Transfer
+     */
+    private $transfers;
+
+
+    /**
+     * Set transfers
+     *
+     * @param \FrontBundle\Entity\Transfer $transfers
+     *
+     * @return Torrent
+     */
+    public function setTransfers(\FrontBundle\Entity\Transfer $transfers = null)
+    {
+        $this->transfers = $transfers;
+
+        return $this;
+    }
+
+    /**
+     * Get transfers
+     *
+     * @return \FrontBundle\Entity\Transfer
+     */
+    public function getTransfers()
+    {
+        return $this->transfers;
+    }
 }

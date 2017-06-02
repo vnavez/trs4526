@@ -5,6 +5,7 @@ namespace FrontBundle\Controller;
 use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\EntityManager;
 use FrontBundle\Entity\Torrent;
+use FrontBundle\Entity\Transfer;
 use FrontBundle\Form\TorrentUpload;
 use FrontBundle\Service\Api;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -213,8 +214,18 @@ class TorrentController extends Controller
         $em = $this->get('doctrine')->getEntityManager();
 
         $status = $this->get('status');
-        $torrent->setTransfert($status->getStatusByCode('waiting'));
-        $em->persist($torrent);
+
+        if (!$torrent->getTransfers()) {
+            $transfer = new Transfer();
+            $transfer->setStatus($status->getStatusByCode('waiting'));
+            $transfer->setTorrent($torrent);
+            $transfer->setUser($this->getUser());
+            $em->persist($transfer);
+        } else {
+            $torrent->getTransfers()->setStatus($status->getStatusByCode('waiting'));
+            $em->persist($torrent);
+        }
+
         $em->flush();
 
         if ($request->isXmlHttpRequest()) {

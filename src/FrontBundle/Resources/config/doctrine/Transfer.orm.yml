@@ -1,0 +1,29 @@
+FrontBundle\Entity\Transfer:
+    type: entity
+    table: transfer
+    repositoryClass: FrontBundle\Repository\TransferRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    manyToOne:
+        user:
+            targetEntity: FrontBundle\Entity\User
+            joinColumn:
+                name: id_user
+                referencedColumName: id
+                onDelete: CASCADE
+        torrent:
+            targetEntity: FrontBundle\Entity\Torrent
+            joinColumn:
+                name: id_torrent
+                referencedColumnName: id
+                onDelete: CASCADE
+        status:
+            targetEntity: FrontBundle\Entity\Status
+            joinColumn:
+                name: status
+                referencedColumName: id
+    lifecycleCallbacks: {  }
