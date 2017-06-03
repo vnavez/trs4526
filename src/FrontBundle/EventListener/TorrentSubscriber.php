@@ -5,6 +5,7 @@ namespace FrontBundle\EventListener;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use FrontBundle\Entity\Torrent;
+use FrontBundle\Entity\Transfer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class TorrentSubscriber implements EventSubscriber {
@@ -47,9 +48,12 @@ class TorrentSubscriber implements EventSubscriber {
     {
         $entity = $args->getEntity();
 
-        if (!$entity instanceof Torrent) {
+        if (!$entity instanceof Torrent && !$entity instanceof Transfer) {
             return;
         }
+
+        if ($entity instanceof Transfer)
+            $entity = $entity->getTorrent();
 
         $response = array(
             'id' => $entity->getId(),
