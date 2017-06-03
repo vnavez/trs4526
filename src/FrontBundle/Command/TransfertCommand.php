@@ -4,6 +4,7 @@ namespace FrontBundle\Command;
 
 use Doctrine\ORM\EntityManager;
 use FrontBundle\Entity\Torrent;
+use FrontBundle\Entity\Transfer;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -35,30 +36,30 @@ class TransfertCommand extends ContainerAwareCommand {
         if (count(explode("\n", $output)) > 2)
             return;
 
-        $torrent = $em->getRepository('FrontBundle:Torrent')->findOneBy(array('transfert' => $status->getStatusByCode('transfert')));
-        if ($torrent) {
-            $torrent->setTransfert($status->getStatusByCode('error'));
-            $em->persist($torrent);
+        $transfer = $em->getRepository('FrontBundle:Transfer')->findOneBy(array('status' => $status->getStatusByCode('transfert')));
+        if ($transfer) {
+            $transfer->setStatus($status->getStatusByCode('error'));
+            $em->persist($transfer);
             $em->flush();
         }
 
-        /** @var Torrent $torrent */
-        $torrent = $em->getRepository('FrontBundle:Torrent')->findOneBy(array('transfert' => $status->getStatusByCode('waiting')));
-        $torrent->setTransfert($status->getStatusByCode('transfert'));
-        $em->persist($torrent);
+        /** @var Transfer $transfer */
+        $transfer = $em->getRepository('FrontBundle:Transfer')->findOneBy(array('status' => $status->getStatusByCode('waiting')));
+        $transfer->setStatus($status->getStatusByCode('transfert'));
+        $em->persist($transfer);
         $em->flush();
 
-        $name = preg_replace('/([^a-zA-Z0-9])/', '\\\$1', $torrent->getName());
+        $name = preg_replace('/([^a-zA-Z0-9])/', '\\\$1', $transfer->getTorrent()->getName());
         $name = preg_replace('/\'/', '*', $name);
 
-        $source_file = preg_replace('/([^a-zA-Z0-9])/', '*', $torrent->getName());
+        $source_file = preg_replace('/([^a-zA-Z0-9])/', '*', $transfer->getTorrent()->getName());
 
         $process = new Process('ssh admin@192.168.0.16 \'scp -r vnavez@lw321.ultraseedbox.com:"files/'.$source_file.'" /volume2/Transfert/'.$name.'\'');
         $process->setTimeout(7200);
         $process->run();
 
-        $torrent->setTransfert($status->getStatusByCode('done'));
-        $em->persist($torrent);
+        $transfer->setStatus($status->getStatusByCode('done'));
+        $em->persist($transfer);
         $em->flush();
 
     }
