@@ -223,9 +223,9 @@ class TorrentController extends Controller
             $em->persist($transfer);
         } else {
             $torrent->getTransfers()->setStatus($status->getStatusByCode('waiting'));
+            $em->persist($torrent);
         }
 
-        $em->persist($torrent);
         $em->flush();
 
         if ($request->isXmlHttpRequest()) {
