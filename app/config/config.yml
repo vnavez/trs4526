@@ -47,6 +47,9 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+        transmission_login: '%transmission_login%'
+        transmission_host: '%transmission_host%'
 
 # Doctrine Configuration
 doctrine:

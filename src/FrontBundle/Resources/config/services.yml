@@ -28,6 +28,8 @@ services:
         class: FrontBundle\Service\Transmission
     torrent:
         class: FrontBundle\Service\Torrent
+    ssh:
+        class: FrontBundle\Service\SSH
     user:
         class: FrontBundle\Service\User
         arguments: ["@userRepository"]

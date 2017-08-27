@@ -4,6 +4,7 @@
         <th></th>
         <th data-field="name" data-sortable="true">Name</th>
         <th data-field="category" data-sortable="true">Category</th>
+        <th data-field="size" data-sortable="true">Size</th>
         <th data-field="seeders" data-sortable="true">Seeders</th>
         <th data-field="added" data-sortable="true">Date Add</th>
     </tr>
@@ -18,6 +19,7 @@
             </td>
             <td>{{ torrent.name }}</td>
             <td><span class="label {{ torrent.categoryname|type_color }}">{{ torrent.categoryname }}</span></td>
+            <td class="no-wrap">{{ torrent.size|file_size }}</td>
             <td>{{ torrent.seeders }}</td>
             <td>{{ torrent.added|date("d/m/Y") }}</td>
         </tr>

@@ -23,6 +23,7 @@
                 <nav class="pull-right">
                     <ul class="nav nav-tabs">
                         {% if app.user %}
+                            <li role="presentation"><a href="{{ path('server_edit') }}" title="{{ 'Paramètres serveur' }}"><i class="fa fa-server" aria-hidden="true"></i></a></li>
                             <li role="presentation"{% if (app.request.get('_route') == 'user_edit') %} class="active"{% endif %}><a href="{{ path('user_edit') }}" title="{{ 'Paramètres' }}"><i class="glyphicon glyphicon-cog"></i></a></li>
                             <li role="presentation"><a href="{{ path('fos_user_security_logout') }}"><i class="glyphicon glyphicon-log-out"></i></a></li>
                         {% else %}
@@ -59,7 +60,10 @@
         {% endif %}
         <section id="heading-message"></section>
         <section class="page-content row">
-            {% block content %}{% endblock %}
+            <div class="section col-md-12">
+                <h1>{% block page_title %}{% endblock %}</h1>
+                {% block content %}{% endblock %}
+            </div>
         </section>
     </div>
 

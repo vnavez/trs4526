@@ -1,0 +1,34 @@
+FrontBundle\Entity\Server:
+    type: entity
+    table: server
+    repositoryClass: FrontBundle\Repository\ServerRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        host:
+            type: string
+            length: 255
+        port:
+            type: integer
+        username:
+            type: string
+            length: 255
+        default_directory:
+            type: string
+            length: 255
+        active:
+            type: boolean
+            options:
+                default: 0
+    manyToOne:
+        user:
+            targetEntity: FrontBundle\Entity\User
+            joinColumn:
+                name: id_user
+                referencedColumName: id
+                onDelete: CASCADE
+    lifecycleCallbacks: {  }

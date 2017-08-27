@@ -2,13 +2,10 @@
 {% form_theme form 'FrontBundle::form/fields.html.twig' %}
 
 {% block page_title %}
-    {{ 'Torrents List' }}
+    <i class="glyphicon glyphicon-transfer"></i> {{ 'Liste des téléchargements' }}
 {% endblock %}
 
 {% block content %}
-
-    <div class="section col-md-12">
-        <h1><i class="glyphicon glyphicon-transfer"></i> {{ 'Liste des téléchargements' }}</h1>
 
         <table class="table table-responsive table-condensed table-hover">
             <thead>
@@ -45,6 +42,5 @@
                 </div>
             </div>
         </div>
-    </div>
 
 {% endblock %}

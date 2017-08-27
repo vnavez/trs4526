@@ -34,16 +34,16 @@ a {
 }
 
 header {
-    background-image: url('../images/background.jpg');
+    /*background-image: url('../images/background.jpg');
     background-position: center 0;
     background-color: #b4a796;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat;*/
 }
 
 header.page-header {
     padding-bottom: 0;
     margin-top: 0;
-    height: 250px;
+    height: 150px;
     border-bottom: 0;
 }
 

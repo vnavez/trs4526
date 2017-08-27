@@ -127,3 +127,21 @@ $(document).on('click', '.compress-files', function(e) {
     }
     return false;
 });
+
+
+$(document).on('click', '#test-connection', function(e) {
+    $('#msg-danger,#msg-success').fadeOut(200);
+    $.ajax({
+        url: $(this).attr('href'),
+        success: function(response) {
+            if (response.error)
+                $('#msg-danger').html('<strong>Erreur!</strong> '+response.error).fadeIn(200);
+            else
+                $('#msg-success').html('<strong>Félicitations!</strong> Votre serveur est correctement configuré').fadeIn(200);
+            $('html, body').animate({
+                scrollTop: $('#test-connection').offset().top
+            }, 200);
+        }
+    });
+    return false;
+});

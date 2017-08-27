@@ -1,0 +1,33 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+{% form_theme form 'FrontBundle::form/fields.html.twig' %}
+
+{% block page_title %}
+    <i class="glyphicon glyphicon-transfer"></i> {{ 'Paramètres serveur' }}
+{% endblock %}
+
+{% block content %}
+    <p>
+        1. Vous devez autoriser la clé SSH suivante sur votre NAS afin de pouvoir faire les transferts.<br />
+        <code style="word-wrap: break-word;">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDc1pKoGS921tbzDHH7sBkOnczKoK3A9E+/GyC1bQnDdQ2hUFORfb1dIR3ODyaz/i5X+AgWkjjbeBwbRTpIM3wmHWpH7WpTJDH2IBPzl1jluqy3Uktji8KXMNDxy7EWmuvwW6Oojhdq6e/YSohldbD0YGw3Aw6G6kUC02WY33DiUYGiUM5PnuCv/qjB4yurohuhgS9CfcRbZHh/7Nd5YwhrKFz9N82f4wunOSE8me+z7lU/OQP1qeu9ItIkJXSP+LkKFGqvUEE0zXom1bzr/oXmJx8gPVbfUYLXiLDxq84njWsfhqEqoico7OzklWATOOWr6x6aOWtrmndazFFepd8L pi@raspberrypi</code><br />
+    </p>
+    <hr>
+    <p>
+        2. Une fois ces paramètres, vous pouvez renseigner les paramètres suivants pour se connecter à votre serveur
+    </p>
+    {{ form_start(form, { 'action': path('server_edit'), 'attr': { 'class': 'server_profile_edit' } }) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <hr>
+    <p>
+        3. Vous devez autoriser votre NAS à se connecter a la seedbox sans mot de passe, pour cela, il faut taper la commande suivante.<br />
+        <code>ssh-copy-id {{ transmission_login }}@{{ transmission_host }}</code>
+    </p>
+    <hr>
+    <p>
+        4. Une fois tous les paramètres renseignés, vous pouvez tester votre connexion en cliquant sur le bouton ci-dessous
+    </p>
+    <div id="msg-danger" class="alert alert-danger" style="display: none" role="alert"></div>
+    <div id="msg-success" class="alert alert-success" style="display: none" role="alert"></div>
+    <a href="{{ path('server_test') }}" id="test-connection" class="btn btn-danger btn-sm">{{ 'Tester sa connexion' }}</a>
+{% endblock %}
