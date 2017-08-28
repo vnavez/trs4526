@@ -80,6 +80,8 @@ class ServerController extends Controller
     /**
      * @Route("/test", name="server_test")
      * @param Request $request
+     * @return JsonResponse
+     * @throws Exception
      */
     public function testAction(Request $request)
     {
@@ -100,6 +102,7 @@ class ServerController extends Controller
 
         try {
             $connection = $ssh->connect($server);
+
             $ssh->runCommand($connection, 'touch ' . $server->getDefaultDirectory() . '/test.file && rm ' . $server->getDefaultDirectory() . '/test.file');
             $ssh->runCommand($connection, 'scp -r vnavez@lw321.ultraseedbox.com:"files/DONTREMOVE" '.$server->getDefaultDirectory().'/DONTREMOVE');
 
@@ -114,11 +117,8 @@ class ServerController extends Controller
         $em->persist($server);
         $em->flush();
 
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(array('success' => true));
-        }
+        return new JsonResponse(array('success' => true));
 
-        die;
 
     }
 

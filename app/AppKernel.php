@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new \UserBundle\UserBundle(),
             new Gos\Bundle\WebSocketBundle\GosWebSocketBundle(),
             new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle(),
+            new steevanb\SSH2Bundle\SSH2Bundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
