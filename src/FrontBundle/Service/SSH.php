@@ -15,7 +15,7 @@ class SSH
      * @throws \Exception
      */
     public function connect($server) {
-        $connection = new SSH2($server->getHost());
+        $connection = new SSH2($server->getHost(), $server->getPort());
 
         $key = new RSA();
         $key->loadKey(file_get_contents('/app/id_rsa'));
