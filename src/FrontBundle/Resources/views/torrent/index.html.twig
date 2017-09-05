@@ -21,7 +21,7 @@
             </thead>
             <tbody>
             {% for torrent in torrents %}
-                {{ include("FrontBundle:torrent:torrent_line.html.twig", {'torrent': torrent}) }}
+                {{ include("FrontBundle:torrent:torrent_line.html.twig", {'torrent': torrent, 'user_id': user_id}) }}
             {% endfor %}
             </tbody>
         </table>

@@ -7,9 +7,11 @@
 
 {% block body %}
 
+    {% if app.user %}
     <script type="text/javascript">
         var id_client = {{ app.user.id }};
     </script>
+    {% endif %}
 
     <header class="page-header clearfix">
         <div id="top-bar">

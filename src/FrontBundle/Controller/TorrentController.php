@@ -40,6 +40,7 @@ class TorrentController extends Controller
 
         return $this->render('FrontBundle:torrent:index.html.twig', array(
             'torrents' => $torrents,
+            'user_id' => $this->getUser() ? $this->getUser()->getId() : null,
             'form' => $form->createView()
         ));
     }
