@@ -114,13 +114,6 @@ $(document).on('click', '.enable-transfert', function (e) {
         },
         complete: function () {
             el.css('opacity', '1');
-        },
-        success: function (response) {
-            if (response.success) {
-                el.replaceWith(response.data);
-            }
-        },
-        error: function (response) {
         }
     });
     return false;
