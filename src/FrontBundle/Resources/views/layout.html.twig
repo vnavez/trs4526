@@ -7,6 +7,10 @@
 
 {% block body %}
 
+    <script type="text/javascript">
+        var id_client = {{ app.user.id }};
+    </script>
+
     <header class="page-header clearfix">
         <div id="top-bar">
             <div class="container">
@@ -88,4 +92,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}

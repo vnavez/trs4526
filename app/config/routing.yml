@@ -3,5 +3,9 @@ front:
     type:     annotation
     prefix:   /
 
+api:
+    type: rest
+    resource: FrontBundle\Controller\ApiController
+
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"

@@ -18,7 +18,7 @@ class SSH
         $connection = new SSH2($server->getHost(), $server->getPort());
 
         $key = new RSA();
-        $key->loadKey(file_get_contents('/app/id_rsa'));
+        $key->loadKey(file_get_contents('/var/www/trs/current/app/id_rsa'));
         if (!$connection->login($server->getUsername(), $key))
             throw new \Exception('Unable to connect to server');
 

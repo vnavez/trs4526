@@ -2,3 +2,12 @@ torrent_update:
     channel: torrent/update
     handler:
         callback: 'torrent.update' #related to the getName() of your topic
+
+torrent_update_client:
+    channel: torrent/update/{user_id}
+    handler:
+        callback: 'torrent.update.client'
+    requirements:
+        user_id:
+            pattern: "[0-9]+"
+            wildcard: true

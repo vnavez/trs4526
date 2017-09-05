@@ -57,12 +57,16 @@ class TorrentSubscriber implements EventSubscriber {
 
         $response = array(
             'id' => $entity->getId(),
+            'id_user' => $entity->getUser()->getId(),
             'action' => $action,
             'html' => $action != 'delete' ? $this->container->get('templating')->render('FrontBundle:torrent:torrent_line.html.twig', array('torrent' => $entity)) : ''
         );
 
         $pusher = $this->container->get('gos_web_socket.wamp.pusher');
-        $pusher->push($response, 'torrent_update');
+        if ($entity instanceof Transfer)
+            $pusher->push($response, 'torrent_update_client', array('user_id' => $entity->getUser()->getId()));
+        else
+            $pusher->push($response, 'torrent_update');
 
     }
 

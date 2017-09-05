@@ -49,6 +49,10 @@ services:
         class: FrontBundle\RPC\SocketService
         tags:
             - { name: gos_web_socket.topic }
+    torrent_update_client:
+        class: FrontBundle\RPC\UserService
+        tags:
+            - { name: gos_web_socket.topic }
     torrent.listener:
         class: FrontBundle\EventListener\TorrentSubscriber
         arguments: ["@service_container"]
