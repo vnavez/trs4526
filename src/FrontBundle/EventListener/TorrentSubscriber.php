@@ -3,6 +3,7 @@
 namespace FrontBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
+use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use FrontBundle\Entity\Torrent;
 use FrontBundle\Entity\Transfer;
@@ -55,17 +56,21 @@ class TorrentSubscriber implements EventSubscriber {
         if ($entity instanceof Transfer)
             $entity = $entity->getTorrent();
 
+        $user_id = $entity->getUser() ? $entity->getUser()->getId() : null;
+
         $response = array(
             'id' => $entity->getId(),
-            'id_user' => $entity->getUser()->getId(),
+            'id_user' => $entity->getUser() ? $entity->getUser()->getId() : null,
             'action' => $action,
-            'html' => $action != 'delete' ? $this->container->get('templating')->render('FrontBundle:torrent:torrent_line.html.twig', array('torrent' => $entity, 'user_id' => $entity->getUser()->getId())) : ''
+            'html' => $action != 'delete' ? $this->container->get('templating')->render('FrontBundle:torrent:torrent_line.html.twig', array('torrent' => $entity, 'user_id' => $user_id)) : ''
         );
 
         $pusher = $this->container->get('gos_web_socket.wamp.pusher');
-
-        $pusher->push($response, 'torrent_update');
-        $pusher->push($response, 'torrent_update_client', array('user_id' => $entity->getUser()->getId()));
+        if ($entity->getUser()) {
+            $pusher->push($response, 'torrent_update_client', array('user_id' => $entity->getUser()->getId()));
+        } else {
+            $pusher->push($response, 'torrent_update');
+        }
 
     }
 

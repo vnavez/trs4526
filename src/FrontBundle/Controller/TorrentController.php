@@ -230,8 +230,7 @@ class TorrentController extends Controller
         $em->flush();
 
         if ($request->isXmlHttpRequest()) {
-            $data = $this->renderView('FrontBundle:torrent:torrent_line.html.twig', array('torrent' => $torrent));
-            return new JsonResponse(array('success' => true, 'data' => $data), 200);
+            return new JsonResponse(array('success' => true), 200);
         }
 
         return $this->redirectToRoute('torrent_index');
