@@ -223,8 +223,13 @@ class TorrentController extends Controller
             $transfer->setUser($this->getUser());
             $em->persist($transfer);
         } else {
-            $torrent->getTransfers()->setStatus($status->getStatusByCode('waiting'));
-            $em->persist($torrent);
+            /** @var Transfer $transfer */
+            foreach ($torrent->getTransfers() as $transfer) {
+                if ($transfer->getUser()->getId() == $this->getUser()->getId()) {
+                    $transfer->setStatus($status->getStatusByCode('waiting'));
+                    $em->persist($transfer);
+                }
+            }
         }
 
         $em->flush();

@@ -53,8 +53,10 @@ class TorrentSubscriber implements EventSubscriber {
             return;
         }
 
-        if ($entity instanceof Transfer)
+        if ($entity instanceof Transfer) {
+            $transfer = clone $entity;
             $entity = $entity->getTorrent();
+        }
 
         $user_id = $entity->getUser() ? $entity->getUser()->getId() : null;
 
@@ -66,8 +68,9 @@ class TorrentSubscriber implements EventSubscriber {
         );
 
         $pusher = $this->container->get('gos_web_socket.wamp.pusher');
-        if ($entity->getUser()) {
-            $pusher->push($response, 'torrent_update_client', array('user_id' => $entity->getUser()->getId()));
+
+        if (isset($transfer) && $transfer->getUser()) {
+            $pusher->push($response, 'torrent_update_client', array('user_id' => $transfer->getUser()->getId()));
         } else {
             $pusher->push($response, 'torrent_update');
         }
